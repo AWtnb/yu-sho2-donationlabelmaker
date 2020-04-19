@@ -1,0 +1,133 @@
+
+/*
+https://www.a-one.co.jp/product/search/detail.php?id=60208
+https://www.a-one.co.jp/product/search/detail.php?id=61208
+*/
+table.print {
+    position: absolute;
+    top: 10.5mm;
+    left: 8mm;
+    width: 194mm;
+    height: 276mm;
+    border-collapse: collapse;
+}
+
+table.print p {
+    margin: 0;
+}
+
+table.print td {
+    border: 1px dotted;
+    border-color: #cccccc;
+    border-collapse: collapse;
+    position: relative;
+}
+
+table.print .toArea .stamp {
+    writing-mode: vertical-lr;
+    border: 2px solid black;
+    padding: .5mm;
+    position: absolute;
+    left: 80mm;
+    top: 5mm;
+    font-size: 28pt;
+    font-weight: bold;
+    text-align: center;
+    font-family: "MS Mincho";
+}
+
+table.print .toArea p.zipcode {
+    position: absolute;
+    font-size: 14pt;
+    top: 2mm;
+    left: 4mm;
+}
+
+table.print .toArea .addressBlock {
+    position: absolute;
+    max-width: 75mm;
+    font-size: 12pt;
+    top: 8mm;
+    left: 5mm;
+}
+
+table.print .toArea .nameBlock {
+    position: absolute;
+    bottom: 33mm;
+    left: 50%;
+    width: 64mm;
+    margin-left: -32mm;
+    text-align: center;
+}
+table.print .toArea .nameBlock .name {
+    font-size: 21pt;
+    font-weight: bold;
+}
+
+table.print .toArea .nameBlock .title {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-left: .25em;
+}
+
+table.print .fromArea {
+    font-family: "MS Mincho";
+    border-top: solid 1px #123456;
+    color: #123456;
+    position: absolute;
+    top: 36mm;
+    width: 95mm;
+}
+
+table.print .fromArea .zipcode {
+    position: absolute;
+    left: 14mm;
+    top: 2mm;
+    font-size: 10pt;
+}
+
+table.print .fromArea .addressBlock {
+    position: absolute;
+    top: 7mm;
+    left: 14mm;
+}
+
+table.print .fromArea .telfax {
+    position: absolute;
+    top: 18mm;
+    left: 14mm;
+    font-size: 10pt;
+}
+
+table.print .fromArea .nameBlock {
+    position: absolute;
+    top: 18mm;
+    left: 68mm;
+    width: 40mm;
+    margin-left: -20mm;
+    text-align: center;
+    font-size: 11pt;
+}
+
+table.print .fromArea .stamp {
+    writing-mode: vertical-rl;
+    border: 2px solid #123456;
+    padding: .5mm 2mm .5mm 1mm;
+    position: absolute;
+    left: 2mm;
+    top: 2.5mm;
+    width: 6mm;
+    height: 25mm;
+    text-align: center;
+    display: inline-block;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+table.print .fromArea .via {
+    position: absolute;
+    font-size: 11pt;
+    margin-left: .5em;
+    top: 11.5mm;
+    left: 75mm;
+}

@@ -1,0 +1,92 @@
+body {
+    color: #031d44;
+    background-color: #eeeeee;
+}
+
+h1 {
+    color: #009999;
+}
+
+strong {
+    color: red;
+}
+
+p, img, form, table {
+    margin-left: 1em;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 10pt;
+    counter-reset: rowCount;
+}
+table td,th {
+    height: 1.25em;
+    border: solid 1px #9FEE00;
+    width: auto !important;
+}
+
+table th {
+    background-color: #FF7373;
+    color: #343434;
+    letter-spacing: .125em;
+}
+table td {
+    color: #006363;
+    padding: .25em;
+}
+table > tbody > tr {
+    counter-increment: rowCount;
+}
+table > tbody > tr > td:first-child::before{
+    content: counter(rowCount);
+}
+table tr:hover {
+    background-color: #C9F76F;
+}
+table tr td:nth-child(1)  {
+    color: #333333;
+    font-style: italic;
+    padding-left: .25em;
+    padding-right: .5em;
+}
+img {
+    border: 2px solid #9FEE00;
+    border-radius: 6px;
+}
+
+p input {
+    margin:0 .25em;
+    border-radius: 6px;
+}
+
+table {
+    margin: 1em;
+}
+textarea {
+    border-radius: 6px;
+    padding: .5em;
+    border: 2px solid #9FEE00;
+}
+
+.condition {
+    display: inline-flex;
+    margin-left: 1em;
+}
+.condition p {
+    padding: 0;
+    margin: 0 .25em 0 .25em;
+}
+
+a {
+    color: #ff8400;
+}
+
+footer {
+    border-top: 1px dashed #999999;
+    text-align: end;
+}
+footer p {
+    margin-right: 4em;
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- thanks https://qiita.com/okoppe8/items/f3b3e7688c98537512ea -->
+<html lang="ja">
+<meta charset="utf-8"/>
+<head>
+    <title>print page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+    <link rel="stylesheet" type="text/css" href="./css/print.css">
+</head>
+<body class="A4">
+    <section class="sheet" id="topSheet">
+        <table class="print">
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="toArea">
+                            <p class="zipcode">〒123-4567</p>
+                            <div class="stamp">謹 呈</div>
+                            <div class="addressBlock">
+                                <p class="address">春山県夏田区秋山字冬島1234 シーズンビルヂング1012号室</p>
+                                <p class="place">春夏大学 秋冬学部 十干十二支学科</p>
+                            </div>
+                            <div class="nameBlock">
+                                <span class="name">四季折助</span><span class="title">先生</span>
+                            </div>
+                        </div>
+                        <div class="fromArea">
+                            <p class="zipcode">〒101-0051</p>
+                            <div class="addressBlock">
+                                <p class="address">東京都千代田区神田神保町2-17</p>
+                                <p class="place">株式会社有斐閣 書籍編集第二部</p>
+                            </div>
+                            <div class="telfax">
+                                <p>Tel. 03-3264-1315</p><p>Fax. 03-3264-4630</p>
+                            </div>
+                            <div class="nameBlock">
+                                <p class="name">四季折助・四季折助・四季折助</p>
+                            </div>
+                            <div class="stamp">ゆうメール</div>
+                            <div class="via">気付</div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+<script>
+window.onload = function(){
+    const sourceTable = window.opener.document.querySelector('#table1');
+    const data = [];
+    for (let r = 1; r < sourceTable.rows.length; r++) {
+        let row = sourceTable.rows[r];
+        data.push({
+            name:    (row.cells[1].innerText || ""),
+            title:   (row.cells[2].innerText || ""),
+            place:   (row.cells[3].innerText || ""),
+            zipcode: (row.cells[4].innerText || ""),
+            address: (row.cells[5].innerText || ""),
+            from:    (row.cells[6].innerText || ""),
+        });
+    }
+    // add print sheet if needed
+    let nSheet = Math.ceil(data.length / 8);
+    if (nSheet > 1) {
+        const topSheet = document.querySelector("#topSheet");
+        for (let n = 0; n < nSheet - 1; n++) {
+            let wrapper = document.createElement("section");
+            wrapper.innerHTML = topSheet.outerHTML;
+            document.body.appendChild(wrapper);
+        }
+    }
+    // markup data as html with html template.
+    const conditionForm = window.opener.document.form_condition;
+    const markup = data.map(d => {
+        let markupHTML =
+        `<div class="toArea">` +
+            `<p class="zipcode">〒${d.zipcode}</p>` +
+            `<div class="stamp">謹 呈</div>` +
+            `<div class="addressBlock">` +
+                `<p class="address">${(d.address).replace(/\s/g,"<br>")}</p>` +
+                `<p class="place">${(d.place).replace(/\s/g,"<br>")}</p>` +
+            `</div>` +
+            `<div class="nameBlock">` +
+                `<span class="name">${d.name}</span><span class="title">${d.title}</span>` +
+            `</div>` +
+        `</div>` +
+        `<div class="fromArea">` +
+            `<p class="zipcode">〒101-0051</p>` +
+            `<div class="addressBlock">` +
+                `<p class="address">東京都千代田区神田神保町2-17</p>` +
+                `<p class="place">株式会社有斐閣 書籍編集第二部</p>` +
+            `</div>` +
+            `<div class="telfax">` +
+                `<p>Tel. 03-3264-1315</p><p>Fax. 03-3264-4630</p>` +
+            `</div>` +
+            `<div class="nameBlock">` +
+                `<p class="name">${(d.from).replace(/\s/g,"<br>")}</p>` +
+            `</div>`;
+        if (conditionForm.yuMailFlag.checked) {
+            markupHTML = markupHTML + `<div class="stamp">ゆうメール</div>`
+        }
+        if (conditionForm.viaFlag.checked) {
+            markupHTML = markupHTML + `<div class="via">気付</div>`
+        }
+        return markupHTML + `</div>`;
+    });
+    // overwrite each td.
+    let labelIndex = 0;
+    const printTable = document.querySelectorAll(".print");
+    for (let i = 0; i < printTable.length; i++) {
+        const targetTable = printTable[i];
+        const cells = targetTable.querySelectorAll("td");
+        for (let c = 0; c < cells.length; c++) {
+            cells[c].innerHTML = markup[labelIndex];
+            labelIndex += 1;
+            if (labelIndex == markup.length) {
+                labelIndex = 0;
+            }
+        }
+    }
+}
+</script>
+</body>
+</html>
