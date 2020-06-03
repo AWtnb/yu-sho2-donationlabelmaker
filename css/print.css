@@ -112,15 +112,15 @@ table.print .fromArea .nameBlock {
 table.print .fromArea .stamp {
     writing-mode: vertical-rl;
     border: 2px solid #123456;
-    padding: .5mm 2mm .5mm 1mm;
+    padding: .5mm 1mm .5mm 0;
     position: absolute;
     left: 2mm;
     top: 2.5mm;
-    width: 6mm;
-    height: 25mm;
+    width: 5.5mm;
+    height: 24mm;
     text-align: center;
     display: inline-block;
-    font-size: 14pt;
+    font-size: 12pt;
     font-weight: bold;
 }
 
