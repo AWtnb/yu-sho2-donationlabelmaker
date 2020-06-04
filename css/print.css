@@ -80,30 +80,65 @@ table.print .fromArea {
     width: 80mm;
 }
 
-table.print .fromArea .zipcode {
+/* table.print .fromArea .zipcode {
     position: absolute;
     left: 14mm;
     top: 2mm;
     font-size: 10pt;
-}
+} */
 
 table.print .fromArea .addressBlock {
     position: absolute;
-    top: 7mm;
-    left: 14mm;
+    top: 1mm;
+    left: 1mm;
+}
+
+table.print .fromArea .addressBlock .company {
+    font-size: 20pt;
+    line-height: 10mm;
+    font-weight: bold;
+}
+table.print .fromArea .addressBlock .company .kabuMark {
+    font-size: 28pt;
+    font-weight: normal;
+}
+table.print .fromArea .addressBlock .company .companyName {
+    position: absolute;
+    left: 9.5mm;
+    width: 30mm;
+    font-size: 22pt;
+    letter-spacing: .5mm;
+}
+table.print .fromArea .addressBlock .company .department {
+    position: absolute;
+    left: 35mm;
+    width: 60mm;
+    font-size: 16pt;
+}
+
+table.print .fromArea .addressBlock .address {
+    position: absolute;
+    font-size: 9pt;
+    top: 11mm;
+    width: 80mm;
 }
 
 table.print .fromArea .telfax {
     position: absolute;
-    top: 18mm;
-    left: 14mm;
+    top: 16mm;
+    left: 1mm;
     font-size: 10pt;
+}
+table.print .fromArea .telfax .num {
+    position: absolute;
+    left: 8mm;
+    width: 60mm;
 }
 
 table.print .fromArea .nameBlock {
     position: absolute;
     top: 18mm;
-    left: 68mm;
+    left: 56mm;
     width: 40mm;
     margin-left: -20mm;
     text-align: center;
@@ -130,6 +165,7 @@ table.print .fromArea .via {
     position: absolute;
     font-size: 11pt;
     margin-left: .5em;
-    top: 11.5mm;
-    left: 75mm;
+    top: 9.5mm;
+    left: 68mm;
+    width: 12mm;
 }
