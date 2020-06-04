@@ -76,7 +76,8 @@ table.print .fromArea {
     color: #123456;
     position: absolute;
     top: 36mm;
-    width: 95mm;
+    left: 15mm;
+    width: 80mm;
 }
 
 table.print .fromArea .zipcode {
@@ -114,11 +115,12 @@ table.print .fromArea .stamp {
     border: 2px solid #123456;
     padding: .5mm 1mm .5mm 0;
     position: absolute;
-    left: 2mm;
-    top: 2.5mm;
-    width: 5.5mm;
-    height: 24mm;
+    left: -12mm;
+    top: -1mm;
+    width: 7mm;
+    height: 28mm;
     text-align: center;
+    line-height: 6mm;
     display: inline-block;
     font-size: 12pt;
     font-weight: bold;
