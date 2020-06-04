@@ -29,14 +29,13 @@
                                 <div class="company"><span class="kabuMark">&#x337F;</span><span class="companyName">有斐閣</span><span class="department">書籍編集第2部</span></div>
                                 <div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>
                             </div>
-                            <div class="telfax">
+                            <div class="contact">
                                 <p>電話<span class="num">03(3264)1315番</span></p>
-                                <p>FAX<span class="num">03(3264)4630番</span></p>
+                                <p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>
+                                <p class="url">http://www.yuhikaku.co.jp/</p>
                             </div>
-                            <div class="nameBlock">
-                                <p>四季折助・四季折助・四季折助</p>
-                            </div>
-                            <div class="stamp">ゆうメール</div>
+                            <div class="nameBlock">四季折助・四季折助・四季折助</div>
+                            <div class="stamp"><p>ゆうメール</p></div>
                             <div class="via">気付</div>
                         </div>
                     </td>
@@ -86,31 +85,30 @@ window.onload = function(){
     const conditionForm = window.opener.document.form_condition;
     const markup = data.map(d => {
         let markupHTML =
-        `<div class="toArea">` +
-            `<p class="zipcode">〒${d.zipcode}</p>` +
-            `<div class="stamp">謹 呈</div>` +
-            `<div class="addressBlock">` +
-                `<p class="address">${(d.address).replace(/\s/g,"<br>")}</p>` +
-                `<p class="place">${(d.place).replace(/\s/g,"<br>")}</p>` +
+            `<div class="toArea">` +
+                `<p class="zipcode">〒${d.zipcode}</p>` +
+                `<div class="stamp">謹 呈</div>` +
+                `<div class="addressBlock">` +
+                    `<p class="address">${(d.address).replace(/\s+/g,"<br>")}</p>` +
+                    `<p class="place">${(d.place).replace(/\s/g,"<br>")}</p>` +
+                `</div>` +
+                `<div class="nameBlock">` +
+                    `<span class="name">${d.name}</span><span class="title">${d.title}</span>` +
+                `</div>` +
             `</div>` +
-            `<div class="nameBlock">` +
-                `<span class="name">${d.name}</span><span class="title">${d.title}</span>` +
-            `</div>` +
-        `</div>` +
-        `<div class="fromArea">` +
-            `<p class="zipcode">〒101-0051</p>` +
-            `<div class="addressBlock">` +
-                `<p class="address">東京都千代田区神田神保町2-17</p>` +
-                `<p class="place">株式会社有斐閣 書籍編集第二部</p>` +
-            `</div>` +
-            `<div class="telfax">` +
-                `<p>Tel. 03-3264-1315</p><p>Fax. 03-3264-4630</p>` +
-            `</div>` +
-            `<div class="nameBlock">` +
-                `<p class="name">${(d.from).replace(/\s/g,"<br>")}</p>` +
-            `</div>`;
+            `<div class="fromArea">` +
+                `<div class="addressBlock">` +
+                    `<div class="company"><span class="kabuMark">&#x337F;</span><span class="companyName">有斐閣</span><span class="department">書籍編集第2部</span></div>` +
+                    `<div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>` +
+                `</div>` +
+                `<div class="contact">` +
+                    `<p>電話<span class="num">03(3264)1315番</span></p>` +
+                    `<p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>` +
+                    `<p class="url">http://www.yuhikaku.co.jp/</p>` +
+                `</div>` +
+                `<div class="nameBlock">${(d.from).replace(/\s+/g,"<br>")}</div>`;
         if (conditionForm.yuMailFlag.checked) {
-            markupHTML = markupHTML + `<div class="stamp">ゆうメール</div>`
+            markupHTML = markupHTML + `<div class="stamp"><p>ゆうメール</p></div>`
         }
         if (conditionForm.viaFlag.checked) {
             markupHTML = markupHTML + `<div class="via">気付</div>`

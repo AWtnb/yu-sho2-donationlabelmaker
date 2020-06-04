@@ -1,171 +1,160 @@
-
 /*
 https://www.a-one.co.jp/product/search/detail.php?id=60208
 https://www.a-one.co.jp/product/search/detail.php?id=61208
 */
 table.print {
-    position: absolute;
-    top: 10.5mm;
-    left: 8mm;
-    width: 194mm;
-    height: 276mm;
-    border-collapse: collapse;
+  position: absolute;
+  top: 10.5mm;
+  left: 8mm;
+  width: 194mm;
+  height: 276mm;
+  border-collapse: collapse;
 }
-
 table.print p {
-    margin: 0;
+  margin: 0;
 }
-
 table.print td {
-    border: 1px dotted;
-    border-color: #cccccc;
-    border-collapse: collapse;
-    position: relative;
+  border: 1px dotted;
+  border-color: #cccccc;
+  border-collapse: collapse;
+  position: relative;
 }
-
 table.print .toArea .stamp {
-    writing-mode: vertical-lr;
-    border: 2px solid black;
-    padding: .5mm;
-    position: absolute;
-    left: 80mm;
-    top: 5mm;
-    font-size: 28pt;
-    font-weight: bold;
-    text-align: center;
-    font-family: "MS Mincho";
+  writing-mode: vertical-lr;
+  border: 2px solid black;
+  padding: 0.5mm;
+  position: absolute;
+  left: 80mm;
+  top: 5mm;
+  font-size: 28pt;
+  font-weight: bold;
+  text-align: center;
+  font-family: "MS Mincho";
 }
-
 table.print .toArea p.zipcode {
-    position: absolute;
-    font-size: 14pt;
-    top: 2mm;
-    left: 4mm;
+  position: absolute;
+  font-size: 14pt;
+  top: 4mm;
+  left: 4.5mm;
 }
-
 table.print .toArea .addressBlock {
-    position: absolute;
-    max-width: 75mm;
-    font-size: 12pt;
-    top: 8mm;
-    left: 5mm;
+  position: absolute;
+  max-width: 75mm;
+  font-size: 12pt;
+  top: 12mm;
+  left: 5mm;
 }
-
 table.print .toArea .nameBlock {
-    position: absolute;
-    bottom: 33mm;
-    left: 50%;
-    width: 64mm;
-    margin-left: -32mm;
-    text-align: center;
+  position: absolute;
+  bottom: 34mm;
+  left: 50%;
+  width: 64mm;
+  margin-left: -32mm;
+  text-align: center;
+  font-family: "MS Mincho";
+  font-weight: bold;
 }
 table.print .toArea .nameBlock .name {
-    font-size: 21pt;
-    font-weight: bold;
+  font-size: 21pt;
+  font-weight: bold;
 }
-
 table.print .toArea .nameBlock .title {
-    font-size: 14pt;
-    font-weight: bold;
-    margin-left: .25em;
+  font-size: 14pt;
+  font-weight: bold;
+  margin-left: 0.25em;
 }
-
 table.print .fromArea {
-    font-family: "MS Mincho";
-    border-top: solid 1px #123456;
-    color: #123456;
-    position: absolute;
-    top: 36mm;
-    left: 15mm;
-    width: 80mm;
+  font-family: "MS Mincho";
+  border-top: solid 1px #123456;
+  color: #123456;
+  position: absolute;
+  top: 36mm;
+  left: 15mm;
+  width: 80mm;
 }
-
-/* table.print .fromArea .zipcode {
-    position: absolute;
-    left: 14mm;
-    top: 2mm;
-    font-size: 10pt;
-} */
-
 table.print .fromArea .addressBlock {
-    position: absolute;
-    top: 1mm;
-    left: 1mm;
+  position: absolute;
+  top: 1mm;
+  left: 0;
 }
-
 table.print .fromArea .addressBlock .company {
-    font-size: 20pt;
-    line-height: 10mm;
-    font-weight: bold;
+  line-height: 10mm;
+  font-weight: bold;
 }
 table.print .fromArea .addressBlock .company .kabuMark {
-    font-size: 28pt;
-    font-weight: normal;
+  font-size: 28pt;
+  font-weight: normal;
 }
 table.print .fromArea .addressBlock .company .companyName {
-    position: absolute;
-    left: 9.5mm;
-    width: 30mm;
-    font-size: 22pt;
-    letter-spacing: .5mm;
+  position: absolute;
+  left: 9.5mm;
+  width: 30mm;
+  font-size: 22pt;
+  letter-spacing: 0.5mm;
 }
 table.print .fromArea .addressBlock .company .department {
-    position: absolute;
-    left: 35mm;
-    width: 60mm;
-    font-size: 16pt;
+  position: absolute;
+  left: 35mm;
+  width: 60mm;
+  font-size: 16pt;
 }
-
 table.print .fromArea .addressBlock .address {
-    position: absolute;
-    font-size: 9pt;
-    top: 11mm;
-    width: 80mm;
+  position: absolute;
+  font-size: 9pt;
+  top: 11mm;
+  width: 80mm;
 }
-
-table.print .fromArea .telfax {
-    position: absolute;
-    top: 16mm;
-    left: 1mm;
-    font-size: 10pt;
+table.print .fromArea .contact {
+  position: absolute;
+  top: 16mm;
+  font-family: "MS Gothic";
+  font-size: 9pt;
 }
-table.print .fromArea .telfax .num {
-    position: absolute;
-    left: 8mm;
-    width: 60mm;
+table.print .fromArea .contact p.url {
+  font-size: 8.5pt;
+  font-family: "MS P Gothic";
 }
-
+table.print .fromArea .contact .fax {
+  font-family: "MS P Gothic";
+  letter-spacing: 0.2mm;
+}
+table.print .fromArea .contact .num {
+  position: absolute;
+  left: 8mm;
+  width: 60mm;
+  letter-spacing: 0.5mm;
+}
 table.print .fromArea .nameBlock {
-    position: absolute;
-    top: 18mm;
-    left: 56mm;
-    width: 40mm;
-    margin-left: -20mm;
-    text-align: center;
-    font-size: 11pt;
+  position: absolute;
+  top: 17mm;
+  left: 40mm;
+  width: 40mm;
+  text-align: center;
+  font-size: 11pt;
 }
-
 table.print .fromArea .stamp {
-    writing-mode: vertical-rl;
-    border: 2px solid #123456;
-    padding: .5mm 1mm .5mm 0;
-    position: absolute;
-    left: -12mm;
-    top: -1mm;
-    width: 7mm;
-    height: 28mm;
-    text-align: center;
-    line-height: 6mm;
-    display: inline-block;
-    font-size: 12pt;
-    font-weight: bold;
+  border: 2px solid #123456;
+  position: absolute;
+  padding: 0.5mm 1mm;
+  left: -12mm;
+  top: -1mm;
+  width: 7mm;
+  height: 28mm;
 }
-
-table.print .fromArea .via {
-    position: absolute;
-    font-size: 11pt;
-    margin-left: .5em;
-    top: 9.5mm;
-    left: 68mm;
-    width: 12mm;
+table.print .fromArea .stamp p {
+  font-size: 14pt;
+  font-weight: bold;
+  font-family: "MS Gothic";
+  writing-mode: vertical-rl;
+  position: absolute;
+  left: 2mm;
+  top: 2mm;
+}
+table.print .via {
+  position: absolute;
+  font-size: 11pt;
+  margin-left: 0.5em;
+  top: 9.5mm;
+  left: 68mm;
+  width: 12mm;
 }
