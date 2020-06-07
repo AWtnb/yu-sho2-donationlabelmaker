@@ -160,7 +160,7 @@ function import_xlsx2table(tableObj) {
             for (let i = 0; i <= 5; i++) {
                 const currentCell = row.insertCell(i);
                 const recordType = tableObj.rows[0].cells[i].innerText;
-                currentCell.innerText = record[recordType];
+                currentCell.innerText = record[recordType] || "";
             }
         });
     };
