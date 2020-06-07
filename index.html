@@ -20,7 +20,9 @@
     <textarea name="textarea1" cols="60" rows="5" placeholder="ここにペースト！"></textarea>
 </form>
 
-<p><input type="button" value="下の表に読み込む" onclick="clickBtn_import()" /></p>
+<p><input type="button" value="下の表に読み込む" onclick="clickBtn_importFromTsv()" /></p>
+<p>Excelから読み込むこともできます（試験運用中）。<br>列名が上図と同じになるようにしてください。</p>
+<p><input type="file" id="import_xlsx" /> <input type="button" value="下の表に読み込む" onclick="clickBtn_importFromXlsx()" /></p>
 
 <table id="table1">
     <thead>
@@ -68,18 +70,23 @@
 
 <p><input type="button" value="表の内容をラベルに出力！" onclick="openLabel()" /></p>
 
+<!--
+    my javascript
+ -->
 <script>
-function clickBtn_import() {
-    const tsv_toImport = document.form_toImport.textarea1.value;
-    const targetTable = document.querySelector("#table1");
-    import_tsv2table(tsv_toImport, targetTable);
-}
 
 function resetTable(tableObj){
     const maxRow = tableObj.rows.length;
     for (let r = maxRow - 1; r > 0; r--) {
         tableObj.deleteRow(r);
     }
+}
+
+function clickBtn_importFromTsv() {
+    const tsv_toImport = document.form_toImport.textarea1.value;
+    const targetTable = document.querySelector("#table1");
+    resetTable(targetTable);
+    import_tsv2table(tsv_toImport, targetTable);
 }
 
 function zen2han(str) {
@@ -89,10 +96,9 @@ function zen2han(str) {
 }
 
 function import_tsv2table(lines, tableObj) {
-    resetTable(tableObj);
     lines.split(/[\r\n]+/g)
         .filter(line => line.match(/./))
-        .forEach((line, r) => {
+        .forEach((line) => {
             const row = tableObj.insertRow(-1);
             const labelElement = line.split(/\t/g);
             for (let i = 0; i <= 5; i++) {
@@ -100,7 +106,6 @@ function import_tsv2table(lines, tableObj) {
                 let text = labelElement[i].trim();
                 text = text.replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3");
                 currentCell.innerText = zen2han(text.trim());
-                currentCell.style.color = "#343434"
             }
         });
 }
@@ -108,6 +113,59 @@ function import_tsv2table(lines, tableObj) {
 function openLabel() {
     var url = './print_page.html';
     window.open(url);
+}
+</script>
+
+<!--
+    javascript fot importing Excel
+        https://qiita.com/okoppe8/items/995b57d4e3d6d512b916
+        http://atomicbox.tank.jp/temporary/1490/
+        https://qiita.com/tmak_tsukamoto/items/9d29fe288324b9206138
+ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.11.19/xlsx.full.min.js"></script>
+<script>
+function clickBtn_importFromXlsx() {
+    const targetTable = document.querySelector("#table1");
+    resetTable(targetTable);
+    import_xlsx2table(targetTable);
+}
+const X = XLSX;
+
+function to_json(workbook) {
+    return result = workbook.SheetNames.map(sheetName => {
+        return {
+            sheetName: sheetName,
+            sheetContents: X.utils.sheet_to_json(
+                workbook.Sheets[sheetName], {raw: true}
+            )
+        }
+    });
+}
+
+function import_xlsx2table(tableObj) {
+    const inputFiles = document.querySelector("#import_xlsx");
+    const targetFile = inputFiles.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const data = e.target.result;
+        const uint8 = new Uint8Array(data);
+        let wb = X.read(uint8, {
+            type: "array"
+        });
+
+        const wbContents = to_json(wb);
+        const sheetData = wbContents[0].sheetContents;
+        sheetData.forEach(record => {
+            const row = tableObj.insertRow(-1);
+            for (let i = 0; i <= 5; i++) {
+                const currentCell = row.insertCell(i);
+                const recordType = tableObj.rows[0].cells[i].innerText;
+                currentCell.innerText = record[recordType];
+            }
+        });
+    };
+
+    reader.readAsArrayBuffer(targetFile);
 }
 </script>
 </body>

@@ -36,21 +36,9 @@ table td {
     color: #006363;
     padding: .25em;
 }
-/* table > tbody > tr {
-    counter-increment: rowCount;
-}
-table > tbody > tr > td:first-child::before{
-    content: counter(rowCount);
-} */
 table tr:hover {
     background-color: #C9F76F;
 }
-/* table tr td:nth-child(1)  {
-    color: #333333;
-    font-style: italic;
-    padding-left: .25em;
-    padding-right: .5em;
-} */
 img {
     border: 2px solid #9FEE00;
     border-radius: 6px;
