@@ -63,12 +63,12 @@ window.onload = function(){
     for (let r = 1; r < sourceTable.rows.length; r++) {
         let row = sourceTable.rows[r];
         data.push({
-            name:    (row.cells[1].innerText || ""),
-            title:   (row.cells[2].innerText || ""),
-            place:   (row.cells[3].innerText || ""),
-            zipcode: (row.cells[4].innerText || ""),
-            address: (row.cells[5].innerText || ""),
-            from:    (row.cells[6].innerText || ""),
+            name:    (row.cells[0].innerText || ""),
+            title:   (row.cells[1].innerText || ""),
+            place:   (row.cells[2].innerText || ""),
+            zipcode: (row.cells[3].innerText || ""),
+            address: (row.cells[4].innerText || ""),
+            from:    (row.cells[5].innerText || ""),
         });
     }
     // add print sheet if needed
