@@ -48,6 +48,23 @@ p input {
     margin:0 .25em;
     border-radius: 6px;
 }
+p input[type="file"] {
+    border-radius: 0%;
+}
+
+.wrap_surround {
+    margin-left: 1em;
+    width: 415px;
+    border: 1px solid #9FEE00;
+}
+.wrap_surround p {
+    margin: .5em .75em;
+}
+
+textarea {
+    width: 30em;
+    height: 5em;
+}
 
 table {
     margin: 1em;

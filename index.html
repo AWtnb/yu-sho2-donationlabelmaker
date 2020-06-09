@@ -17,12 +17,16 @@
 <img src="https://i.gyazo.com/a0ddfa3f5c2a760c94f4ac2cbca21e95.png">
 <p>下記ボックスに Excel から図のようにコピー＆ペーストしてください。</p>
 <form name="form_toImport">
-    <textarea name="textarea1" cols="60" rows="5" placeholder="ここにペースト！"></textarea>
+    <textarea name="textarea1" placeholder="ここにペースト！"></textarea>
 </form>
 
 <p><input type="button" value="下の表に読み込む" onclick="clickBtn_importFromTsv()" /></p>
-<p>Excelから読み込むこともできます（試験運用中）。<br>列名が上図と同じになるようにしてください。</p>
-<p><input type="file" id="import_xlsx" /> <input type="button" value="下の表に読み込む" onclick="clickBtn_importFromXlsx()" /></p>
+
+<div class="wrap_surround">
+    <p>Excel ファイルから読み込むこともできます（試験運用中）。<br>列名が上図と同じになるようにしてください。</p>
+    <p><input type="file" id="import_xlsx" /></p>
+    <p><input type="button" value="Excel から読み込む" onclick="clickBtn_importFromXlsx()" /></p>
+</div>
 
 <table id="table1">
     <thead>
