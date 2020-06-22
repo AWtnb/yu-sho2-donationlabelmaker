@@ -15,7 +15,7 @@ table.print p {
 }
 table.print td {
   border: 1px dotted;
-  border-color: #fff;
+  border-color: red;
   border-collapse: collapse;
   position: relative;
 }
@@ -33,20 +33,22 @@ table.print .toArea .stamp {
 }
 table.print .toArea p.zipcode {
   position: absolute;
-  font-size: 14pt;
-  top: 4mm;
+  font-size: 11pt;
+  top: 2mm;
   left: 4.5mm;
 }
 table.print .toArea .addressBlock {
   position: absolute;
   max-width: 75mm;
-  font-size: 12pt;
-  top: 12mm;
+  font-size: 10pt;
+  line-height: 1.25;
+  top: 7mm;
   left: 5mm;
+  max-height: 18mm;
 }
 table.print .toArea .nameBlock {
   position: absolute;
-  bottom: 34mm;
+  bottom: 32.5mm;
   left: 50%;
   width: 64mm;
   margin-left: -32mm;
