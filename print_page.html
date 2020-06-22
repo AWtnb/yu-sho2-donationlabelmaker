@@ -57,6 +57,18 @@
         </table>
     </section>
 <script>
+String.prototype.bytes = function () {
+    let length = 0;
+    for (let i = 0; i < this.length; i++) {
+        const c = this.charCodeAt(i);
+        if ((c >= 0x0 && c < 0x81) || (c === 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) {
+            length += 1;
+        } else {
+            length += 2;
+        }
+    }
+    return length;
+};
 window.onload = function(){
     const sourceTable = window.opener.document.querySelector('#table1');
     const data = [];
@@ -125,11 +137,11 @@ window.onload = function(){
             cells[c].innerHTML = markup[labelIndex];
             const addressBlock = cells[c].querySelector(".toArea .addressBlock")
             const address = addressBlock.querySelector(".address");
-            if (address.textContent.length > 20) {
+            if (address.textContent.bytes() >= 20 * 2) {
                 address.style.fontSize = "10pt";
             }
             const place = addressBlock.querySelector(".place");
-            if (place.textContent.length > 20) {
+            if (place.textContent.bytes() >= 20 * 2) {
                 place.style.fontSize = "10pt";
             }
             labelIndex += 1;
