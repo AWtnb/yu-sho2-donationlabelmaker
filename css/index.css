@@ -44,17 +44,18 @@ img {
     border-radius: 6px;
 }
 
-p input {
+input {
     margin:0 .25em;
     border-radius: 6px;
 }
-p input[type="file"] {
+input[type="file"] {
     border-radius: 0%;
 }
 
 .wrap_surround {
-    margin-left: 1em;
-    width: 415px;
+    margin-top: 4px;
+    margin-left: 2em;
+    width: 365px;
     border: 1px solid #9FEE00;
 }
 .wrap_surround p {
@@ -98,4 +99,43 @@ footer {
 }
 footer p {
     margin-right: 4em;
+}
+
+.accordionBox {
+    margin: 1em 0;
+    padding: 0;
+    max-width: 400px;
+}
+
+.accordionBox label {
+    display: block;
+    color: #ff8400;
+    font-size: .9em;
+    cursor :pointer;
+    text-decoration: underline;
+}
+.accordionBox .cssAccordion {
+    display: none;
+}
+
+.accordionBox .wrap_surround {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+.cssAccordion:checked + .wrap_surround {
+    height: auto;
+    padding: 5px;
+    opacity: 1;
+}
+
+.wrap_horizontal {
+    display: inline-flex;
+    margin: 0 1em;
+}
+.wrap_horizontal label {
+    margin-left: .5em;
+    padding: 2px 0;
+    width: 20em;
 }
