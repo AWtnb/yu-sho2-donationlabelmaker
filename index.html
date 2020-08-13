@@ -16,8 +16,8 @@
 </ul>
 <img src="https://i.gyazo.com/a0ddfa3f5c2a760c94f4ac2cbca21e95.png">
 <p>下記ボックスに Excel から図のようにコピー＆ペーストしてください。</p>
-<form name="form_toImport">
-    <textarea name="textarea1" placeholder="ここにペースト！"></textarea>
+<form name="form_toImport" class="inputForm">
+    <textarea name="textarea1" placeholder="ここにペースト！" class="input"></textarea>
 </form>
 
 <div class="accordionBox">
@@ -81,9 +81,6 @@
 
 <p><input type="button" value="表の内容をラベルに出力！" onclick="openLabel()" /> <sub><strong>※ 内容が第三者に送信されることはありません</strong></sub></p>
 
-<!--
-    my javascript
- -->
 <script>
 
 function resetTable(tableObj){
@@ -94,9 +91,8 @@ function resetTable(tableObj){
 }
 
 function clickBtn_importFromTsv() {
-    const tsv_toImport = document.form_toImport.textarea1.value;
+    const tsv_toImport = document.querySelector(".inputForm textarea.input").value;
     const targetTable = document.querySelector("#table1");
-    resetTable(targetTable);
     import_tsv2table(tsv_toImport, targetTable);
 }
 
@@ -107,8 +103,9 @@ function zen2han(str) {
 }
 
 function import_tsv2table(lines, tableObj) {
+    resetTable(tableObj);
     lines.split(/[\r\n]+/g)
-        .filter(line => line.match(/./))
+        .filter(line => line)
         .forEach((line) => {
             const row = tableObj.insertRow(-1);
             const labelElement = line.split(/\t/g);

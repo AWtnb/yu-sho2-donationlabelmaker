@@ -87,6 +87,7 @@ textarea {
 
 a {
     color: #ff8400;
+    text-decoration: none;
 }
 
 code {
@@ -112,7 +113,6 @@ footer p {
     color: #ff8400;
     font-size: .9em;
     cursor :pointer;
-    text-decoration: underline;
 }
 .accordionBox .cssAccordion {
     display: none;
