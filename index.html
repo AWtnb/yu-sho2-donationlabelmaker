@@ -111,9 +111,10 @@ function import_tsv2table(lines, tableObj) {
             const labelElement = line.split(/\t/g);
             for (let i = 0; i <= 5; i++) {
                 const currentCell = row.insertCell(i);
-                let text = labelElement[i].trim();
-                text = text.replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3");
-                currentCell.innerText = zen2han(text.trim());
+                const text = labelElement[i].trim()
+                    .replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3")
+                    .replace(/<br>/g, `<span style="color:red">&lt;br&gt;</span>`);
+                currentCell.innerHTML = zen2han(text.trim());
             }
         });
 }
