@@ -101,8 +101,8 @@ window.onload = function(){
                 `<p class="zipcode">〒${d.zipcode}</p>` +
                 `<div class="stamp">謹 呈</div>` +
                 `<div class="addressBlock">` +
-                    `<p class="address">${d.address}</p>` +
-                    `<p class="place">${d.place}</p>` +
+                    `<p class="address">${(d.address).replace(/[\r?\n]/g, "<br>")}</p>` +
+                    `<p class="place">${(d.place).replace(/[\r?\n]/g, "<br>")}</p>` +
                 `</div>` +
                 `<div class="nameBlock">` +
                     `<span class="name">${d.name}</span><span class="title">${d.title}</span>` +
@@ -138,11 +138,11 @@ window.onload = function(){
             const addressBlock = cells[c].querySelector(".toArea .addressBlock")
             const address = addressBlock.querySelector(".address");
             if (address.textContent.bytes() >= 20 * 2) {
-                address.style.fontSize = "10pt";
+                address.style.fontSize = "11pt";
             }
             const place = addressBlock.querySelector(".place");
             if (place.textContent.bytes() >= 20 * 2) {
-                place.style.fontSize = "10pt";
+                place.style.fontSize = "11pt";
             }
             labelIndex += 1;
             if (labelIndex == markup.length) {

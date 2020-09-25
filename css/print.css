@@ -41,10 +41,13 @@ table.print .toArea .addressBlock {
   position: absolute;
   max-width: 75mm;
   font-size: 11pt;
-  line-height: 1.5;
+  line-height: 1.2;
   top: 7mm;
   left: 5mm;
   max-height: 18mm;
+}
+table.print .toArea .addressBlock p {
+  margin: 4px 0;
 }
 table.print .toArea .nameBlock {
   position: absolute;

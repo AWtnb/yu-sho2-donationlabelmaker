@@ -12,7 +12,6 @@
     <li>ラベル仕様：<a href="https://www.a-one.co.jp/product/search/detail.php?id=61208" target="_blank">A-one ラベルシール 61208</a></li>
     <li>紙に無駄が出ないように、余りが出た場合はリストの先頭からラベルを埋め直します。</li>
     <li>セル内で改行されている場合には正常に動作しません。</li>
-    <li>改行タグ（<code>&lt;br&gt;</code>）を使用できます。</li>
 </ul>
 <img src="img/img_example.png">
 <p>下記ボックスに Excel から図のようにコピー＆ペーストしてください。</p>
@@ -35,7 +34,7 @@
     </div>
 </div>
 
-<table id="table1">
+<table id="table1" contenteditable="true">
     <thead>
         <tr>
             <th>氏名</th>
@@ -73,6 +72,8 @@
         </tr>
     </tbody>
 </table>
+
+<p>（各セルを直接編集することもできます）</p>
 
 <form name="form_condition" class="condition">
     <p><input type="checkbox" name="yuMailFlag" value="asYumail" checked="checked"> ゆうメールとして発送する</p>
@@ -112,9 +113,8 @@ function import_tsv2table(lines, tableObj) {
             for (let i = 0; i <= 5; i++) {
                 const currentCell = row.insertCell(i);
                 const text = labelElement[i].trim()
-                    .replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3")
-                    .replace(/<br>/g, `<span style="color:red">&lt;br&gt;</span>`);
-                currentCell.innerHTML = zen2han(text.trim());
+                    .replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3");
+                currentCell.innerText = zen2han(text.trim());
             }
         });
 }
