@@ -118,7 +118,7 @@ window.onload = function(){
                     `<p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>` +
                     `<p class="url">http://www.yuhikaku.co.jp/</p>` +
                 `</div>` +
-                `<div class="nameBlock">${(d.from).replace(/\s+/g,"<br>")}</div>`;
+                `<div class="nameBlock">${(d.from).replace(/[\r?\n]/g,"<br>")}</div>`;
         if (conditionForm.yuMailFlag.checked) {
             markupHTML = markupHTML + `<div class="stamp"><p>ゆうメール</p></div>`
         }
