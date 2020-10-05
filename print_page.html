@@ -105,7 +105,7 @@ window.onload = function(){
                     `<p class="place">${(d.place).replace(/[\r?\n]/g, "<br>")}</p>` +
                 `</div>` +
                 `<div class="nameBlock">` +
-                    `<span class="name">${d.name}</span><span class="title">${d.title}</span>` +
+                    `<span class="name">${(d.name).replace(/[\r?\n]/g, "<br>").replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}</span><span class="title">${d.title}</span>` +
                 `</div>` +
             `</div>` +
             `<div class="fromArea">` +
@@ -135,7 +135,7 @@ window.onload = function(){
         const cells = targetTable.querySelectorAll("td");
         for (let c = 0; c < cells.length; c++) {
             cells[c].innerHTML = markup[labelIndex];
-            const addressBlock = cells[c].querySelector(".toArea .addressBlock")
+            const addressBlock = cells[c].querySelector(".toArea .addressBlock");
             const address = addressBlock.querySelector(".address");
             if (address.textContent.bytes() >= 20 * 2) {
                 address.style.fontSize = "11pt";
@@ -143,6 +143,14 @@ window.onload = function(){
             const place = addressBlock.querySelector(".place");
             if (place.textContent.bytes() >= 20 * 2) {
                 place.style.fontSize = "11pt";
+            }
+            const nameBlock = cells[c].querySelector(".toArea .nameBlock");
+            const nameSpan = nameBlock.querySelector(".name");
+            const titleSpan = nameBlock.querySelector(".title");
+            if (nameSpan.textContent.length >= 8) {
+                nameSpan.style.fontSize = "18pt";
+                titleSpan.style.fontSize = "14pt";
+                nameBlock.style.textAlign = "start";
             }
             labelIndex += 1;
             if (labelIndex == markup.length) {

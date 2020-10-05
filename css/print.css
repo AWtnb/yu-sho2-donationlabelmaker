@@ -51,8 +51,8 @@ table.print .toArea .addressBlock p {
 }
 table.print .toArea .nameBlock {
   position: absolute;
-  bottom: 33mm;
-  left: 50%;
+  bottom: 35mm;
+  left: 47mm;
   width: 64mm;
   margin-left: -32mm;
   text-align: center;
@@ -60,8 +60,11 @@ table.print .toArea .nameBlock {
   font-weight: bold;
 }
 table.print .toArea .nameBlock .name {
-  font-size: 21pt;
+  font-size: 23pt;
   font-weight: bold;
+}
+table.print .toArea .nameBlock .name .sub {
+  font-size: 12pt;
 }
 table.print .toArea .nameBlock .title {
   font-size: 14pt;
@@ -87,14 +90,14 @@ table.print .fromArea .addressBlock .company {
   font-weight: bold;
 }
 table.print .fromArea .addressBlock .company .kabuMark {
-  font-size: 28pt;
+  font-size: 26pt;
   font-weight: normal;
 }
 table.print .fromArea .addressBlock .company .companyName {
   position: absolute;
   left: 9.5mm;
   width: 30mm;
-  font-size: 22pt;
+  font-size: 21pt;
   letter-spacing: 0.5mm;
 }
 table.print .fromArea .addressBlock .company .department {
