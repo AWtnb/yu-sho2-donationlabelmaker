@@ -128,8 +128,8 @@ table.print .fromArea .contact p.url {
   font-family: "MS P Gothic";
 }
 table.print .fromArea .contact .fax {
-  font-family: "MS P Gothic";
-  letter-spacing: 0.2mm;
+  letter-spacing: 0.45mm;
+  margin-left: 0.5mm;
 }
 table.print .fromArea .contact .num {
   position: absolute;
