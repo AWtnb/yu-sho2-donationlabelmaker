@@ -20,6 +20,7 @@ table.print {
         position: relative;
     }
     .toArea {
+        height: 69mm;
         .stamp {
             writing-mode: vertical-lr;
             border: 2px solid black;
@@ -52,24 +53,26 @@ table.print {
         }
         .nameBlock {
             position: absolute;
+            width: 62mm;
             bottom: 35mm;
-            left: 47mm;
-            width: 64mm;
-            margin-left: -32mm;
-            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
             font-family: "MS Mincho";
             font-weight: bold;
-            .name {
+            text-align: center;
+            p.name {
                 font-size: 23pt;
                 font-weight: bold;
                 .sub {
                     font-size: 12pt;
                 }
-            }
-            .title {
-                font-size: 14pt;
-                font-weight: bold;
-                margin-left: .25em;
+                .title {
+                    font-size: 14pt;
+                    font-weight: bold;
+                    margin-left: .25em;
+                }
             }
         }
     }

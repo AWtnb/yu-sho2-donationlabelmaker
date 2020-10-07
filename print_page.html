@@ -17,11 +17,11 @@
                             <p class="zipcode">〒123-4567</p>
                             <div class="stamp">謹 呈</div>
                             <div class="addressBlock">
-                                <p class="address">春山県夏田区秋山字冬島1234 シーズンビルヂング1012号室 サウスエリアロケーション ノースサイドルーム</p>
-                                <p class="place">春夏大学 秋冬学部 十干十二支学科メディアカレンダーエデュケーション学科</p>
+                                <p class="address">春山県夏田区秋山字冬島1234 シーズンビルヂング1012号室</p>
+                                <p class="place">春夏大学 秋冬学部</p>
                             </div>
                             <div class="nameBlock">
-                                <span class="name">四季折助</span><span class="title">先生</span>
+                                <p class="name">四季折助<span class="title">先生</span></p>
                             </div>
                         </div>
                         <div class="fromArea">
@@ -34,7 +34,7 @@
                                 <p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>
                                 <p class="url">http://www.yuhikaku.co.jp/</p>
                             </div>
-                            <div class="nameBlock">四季折助・四季折助・四季折助</div>
+                            <div class="nameBlock"><p>四季折助・四季折助・四季折助</p></div>
                             <div class="stamp"><p>ゆうメール</p></div>
                             <div class="via">気付</div>
                         </div>
@@ -105,7 +105,7 @@ window.onload = function(){
                     `<p class="place">${(d.place).replace(/[\r?\n]/g, "<br>")}</p>` +
                 `</div>` +
                 `<div class="nameBlock">` +
-                    `<span class="name">${(d.name).replace(/[\r?\n]/g, "<br>").replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}</span><span class="title">${d.title}</span>` +
+                    `<p class="name">${(d.name).replace(/[\r?\n]/g, "<br>").replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}<span class="title">${d.title}</span></p>` +
                 `</div>` +
             `</div>` +
             `<div class="fromArea">` +
@@ -118,7 +118,7 @@ window.onload = function(){
                     `<p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>` +
                     `<p class="url">http://www.yuhikaku.co.jp/</p>` +
                 `</div>` +
-                `<div class="nameBlock">${(d.from).replace(/[\r?\n]/g,"<br>")}</div>`;
+                `<div class="nameBlock"><p>${(d.from).replace(/[\r?\n]/g,"<br>")}</p></div>`;
         if (conditionForm.yuMailFlag.checked) {
             markupHTML = markupHTML + `<div class="stamp"><p>ゆうメール</p></div>`
         }

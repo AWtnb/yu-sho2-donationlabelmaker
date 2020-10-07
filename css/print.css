@@ -19,6 +19,9 @@ table.print td {
   border-collapse: collapse;
   position: relative;
 }
+table.print .toArea {
+  height: 69mm;
+}
 table.print .toArea .stamp {
   writing-mode: vertical-lr;
   border: 2px solid black;
@@ -51,22 +54,24 @@ table.print .toArea .addressBlock p {
 }
 table.print .toArea .nameBlock {
   position: absolute;
+  width: 62mm;
   bottom: 35mm;
-  left: 47mm;
-  width: 64mm;
-  margin-left: -32mm;
-  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   font-family: "MS Mincho";
   font-weight: bold;
+  text-align: center;
 }
-table.print .toArea .nameBlock .name {
+table.print .toArea .nameBlock p.name {
   font-size: 23pt;
   font-weight: bold;
 }
-table.print .toArea .nameBlock .name .sub {
+table.print .toArea .nameBlock p.name .sub {
   font-size: 12pt;
 }
-table.print .toArea .nameBlock .title {
+table.print .toArea .nameBlock p.name .title {
   font-size: 14pt;
   font-weight: bold;
   margin-left: 0.25em;
