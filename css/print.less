@@ -21,6 +21,7 @@ table.print {
     }
     .toArea {
         height: 69mm;
+        width: 97mm;
         .stamp {
             writing-mode: vertical-lr;
             border: 2px solid black;
@@ -28,10 +29,14 @@ table.print {
             position: absolute;
             left: 82mm;
             top: 5mm;
-            font-size: 28pt;
-            font-weight: bold;
-            text-align: center;
-            font-family: "MS Mincho";
+            p {
+                font-size: 28pt;
+                font-weight: bold;
+                text-align: center;
+                font-family: "MS Mincho";
+                letter-spacing: 5mm;
+                margin-bottom: -5mm;
+            }
         }
         p.zipcode {
             position: absolute;
