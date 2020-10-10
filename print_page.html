@@ -31,18 +31,6 @@
         </table>
     </section>
 <script>
-String.prototype.bytes = function () {
-    let length = 0;
-    for (let i = 0; i < this.length; i++) {
-        const c = this.charCodeAt(i);
-        if ((c >= 0x0 && c < 0x81) || (c === 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) {
-            length += 1;
-        } else {
-            length += 2;
-        }
-    }
-    return length;
-};
 window.onload = function(){
     const sourceTable = window.opener.document.querySelector('#table1');
     const data = [];
@@ -62,50 +50,50 @@ window.onload = function(){
     if (nSheet > 1) {
         const topSheet = document.querySelector("#topSheet");
         for (let n = 0; n < nSheet - 1; n++) {
-            let wrapper = document.createElement("section");
+            const wrapper = document.createElement("section");
             wrapper.innerHTML = topSheet.outerHTML;
             document.body.appendChild(wrapper);
         }
     }
     // markup data as html with html template.
     const conditionForm = window.opener.document.form_condition;
-    const yuStamp = (conditionForm.yuMailFlag.checked)?
+    const stampMarkup = (conditionForm.yuMailFlag.checked)?
         `<div class="stamp"><p>ゆうメール</p></div>` :
         "";
-    const via = (conditionForm.viaFlag.checked)? 
+    const viaMarkup = (conditionForm.viaFlag.checked)? 
         `<div class="via">気付</div>` :
         "";
     const markup = data.map(d => {
         const markupHTML =
-            `<div class="toArea">` +
-                `<div class="stamp"><p>謹呈</p></div>` +
-                `<div class="editable">` +
-                    `<p class="zipcode">〒${d.zipcode}</p>` +
-                    `<div class="addressBlock">` +
-                        `<p class="address">${(d.address).replace(/[\r?\n]/g, "<br>")}</p>` +
-                        `<p class="place">${(d.place).replace(/[\r?\n]/g, "<br>")}</p>` +
-                    `</div>` +
-                    `<div class="nameBlock">` +
-                        `<p class="name">${(d.name).replace(/[\r?\n]/g, "<br>").replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}<span class="title">${d.title}</span></p>` +
-                    `</div>` +
-                `</div>` +
-            `</div>` +
-            `<div class="fromArea">` +
-                `<div class="addressBlock">` +
-                    `<div class="company"><span class="kabuMark">&#x337F;</span><span class="companyName">有斐閣</span><span class="department">書籍編集第2部</span></div>` +
-                    `<div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>` +
-                `</div>` +
-                `<div class="contact">` +
-                    `<p><span class="tel">電話</span><span class="num">03(3264)1315番</span></p>` +
-                    `<p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>` +
-                    `<p class="url">http://www.yuhikaku.co.jp/</p>` +
-                `</div>` +
-                `<div class="editable">` +
-                    `<div class="nameBlock"><p>${(d.from).replace(/[\r?\n]/g,"<br>")}</p></div>` +
-                `</div>`+
-                `${yuStamp}` +
-                `${via}` +
-            `</div>`;
+            `<div class="toArea">
+                <div class="stamp"><p>謹呈</p></div>
+                <div class="editable">
+                    <p class="zipcode">〒${d.zipcode}</p>
+                    <div class="addressBlock">
+                        <p class="address">${(d.address).replace(/[\r?\n]/g, "<br>")}</p>
+                        <p class="place">${(d.place).replace(/[\r?\n]/g, "<br>")}</p>
+                    </div>
+                    <div class="nameBlock">
+                        <p class="name">${(d.name).replace(/[\r?\n]/g, "<br>").replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}<span class="title">${d.title}</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="fromArea">
+                <div class="addressBlock">
+                    <div class="company"><span class="kabuMark">&#x337F;</span><span class="companyName">有斐閣</span><span class="department">書籍編集第2部</span></div>
+                    <div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>
+                </div>
+                <div class="contact">
+                    <p><span class="tel">電話</span><span class="num">03(3264)1315番</span></p>
+                    <p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>
+                    <p class="url">http://www.yuhikaku.co.jp/</p>
+                </div>
+                <div class="editable">
+                    <div class="nameBlock"><p>${(d.from).replace(/[\r?\n]/g,"<br>")}</p></div>
+                </div>
+                ${stampMarkup}
+                ${viaMarkup}
+            </div>`;
         return markupHTML;
     });
     // overwrite each td.
@@ -116,20 +104,11 @@ window.onload = function(){
         const cells = targetTable.querySelectorAll("td");
         for (let c = 0; c < cells.length; c++) {
             cells[c].innerHTML = markup[labelIndex];
-            const addressBlock = cells[c].querySelector(".toArea .addressBlock");
-            const address = addressBlock.querySelector(".address");
-            if (address.textContent.bytes() >= 20 * 2) {
-                address.style.fontSize = "11pt";
-            }
-            const place = addressBlock.querySelector(".place");
-            if (place.textContent.bytes() >= 20 * 2) {
-                place.style.fontSize = "11pt";
-            }
             const nameBlock = cells[c].querySelector(".toArea .nameBlock");
-            const nameSpan = nameBlock.querySelector(".name");
+            const nameElem = nameBlock.querySelector(".name");
             const titleSpan = nameBlock.querySelector(".title");
-            if (nameSpan.textContent.length >= 8) {
-                nameSpan.style.fontSize = "18pt";
+            if (nameElem.textContent.length >= 8) {
+                nameElem.style.fontSize = "18pt";
                 titleSpan.style.fontSize = "14pt";
                 nameBlock.style.textAlign = "start";
             }
