@@ -20,15 +20,17 @@ table.print {
         position: relative;
     }
     .toArea {
-        height: 69mm;
-        width: 97mm;
+        position: absolute;
+        top: 0mm;
+        height: 36mm;
+        width: 96mm;
         .stamp {
-            writing-mode: vertical-lr;
-            border: 2px solid black;
-            padding: .5mm;
             position: absolute;
             left: 82mm;
             top: 5mm;
+            writing-mode: vertical-lr;
+            border: 2px solid black;
+            padding: .5mm;
             p {
                 font-size: 28pt;
                 font-weight: bold;
@@ -38,45 +40,39 @@ table.print {
                 margin-bottom: -5mm;
             }
         }
-        p.zipcode {
+        .zipcode {
             position: absolute;
+            top: 3mm;
+            left: 3mm;
             font-size: 12pt;
-            top: 3.5mm;
-            left: 6.5mm;
         }
         .addressBlock {
             position: absolute;
-            max-width: 75mm;
-            font-size: 10.5pt;
-            line-height: 1.2;
             top: 8mm;
-            left: 6.5mm;
-            max-height: 18mm;
+            left: 3mm;
+            max-width: 80mm;
+            font-size: 10.5pt;
+            line-height: 1.1;
             p {
                 margin: 4px 0;
             }
         }
         .nameBlock {
             position: absolute;
-            width: 62mm;
-            bottom: 35mm;
-            left: 50%;
-            transform: translateX(-50%);
-            -webkit-transform: translateX(-50%);
-            -ms-transform: translateX(-50%);
+            width: 70mm;
+            bottom: 0;
+            left: 12mm;
             font-family: "MS Mincho";
             font-weight: bold;
             text-align: center;
-            p.name {
+            .name {
                 font-size: 23pt;
-                font-weight: bold;
                 .sub {
                     font-size: 12pt;
                 }
                 .title {
                     font-size: 14pt;
-                    font-weight: bold;
-                    margin-left: .25em;
+                    margin-left: 1mm;
                 }
             }
         }
@@ -87,12 +83,12 @@ table.print {
         color: #123456;
         position: absolute;
         top: 36mm;
-        left: 15mm;
+        left: 13mm;
         width: 80mm;
+        height: 30mm;
         .addressBlock {
             position: absolute;
             top: 1mm;
-            left: 0;
             .company {
                 line-height: 10mm;
                 font-weight: bold;
@@ -109,16 +105,17 @@ table.print {
                 }
                 .department {
                     position: absolute;
-                    left: 35mm;
-                    width: 60mm;
+                    left: 34mm;
+                    width: 40mm;
                     font-size: 16pt;
                 }
             }
             .address {
                 position: absolute;
-                font-size: 9pt;
                 top: 11mm;
                 width: 80mm;
+                font-family: "MS Gothic";
+                font-size: 9pt;
             }
         }
         .contact {
@@ -126,7 +123,7 @@ table.print {
             top: 16mm;
             font-family: "MS Gothic";
             font-size: 9pt;
-            p.url {
+            .url {
                 font-size: 8.5pt;
                 font-family: "MS P Gothic";
             }
@@ -144,17 +141,19 @@ table.print {
         .nameBlock {
             position: absolute;
             top: 17mm;
-            left: 40mm;
-            width: 40mm;
+            left: 38mm;
+            width: 44mm;
+            max-width: 44mm;
             text-align: center;
             font-size: 11pt;
+            font-weight: bold;
         }
         .stamp {
-            border: 2px solid #123456;
             position: absolute;
+            border: 2px solid #123456;
             padding: .5mm 1mm;
-            left: -12mm;
-            top: -1mm;
+            left: -11.5mm;
+            top: 0;
             width: 7mm;
             height: 28mm;
             p {
@@ -171,9 +170,9 @@ table.print {
     .via {
         position: absolute;
         font-size: 11pt;
-        margin-left: .5em;
-        top: 9.5mm;
-        left: 68mm;
-        width: 12mm;
+        top: 8.5mm;
+        left: 70mm;
+        width: 2.5em;
+        text-align: center;
     }
 }
