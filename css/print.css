@@ -16,8 +16,6 @@ table.print {
   position: absolute;
   top: 10.5mm;
   left: 8mm;
-  width: 194mm;
-  height: 276mm;
   border-collapse: collapse;
 }
 table.print p {
@@ -28,6 +26,8 @@ table.print td {
   border-color: #fff;
   border-collapse: collapse;
   position: relative;
+  width: 97mm;
+  height: 69mm;
 }
 table.print .toArea {
   position: absolute;
