@@ -2,6 +2,18 @@
 https://www.a-one.co.jp/product/search/detail.php?id=60208
 https://www.a-one.co.jp/product/search/detail.php?id=61208
 */
+@font-face {
+  font-family: 'Noto Serif JP';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Serif JP'), local('NotoSerifJP-Regular'), url(https://fonts.gstatic.com/s/notoserifjp/v7/xn7mYHs72GKoTvER4Gn3b5eMXNg.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Noto Serif JP';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Noto Serif JP Bold'), local('NotoSerifJP-Bold'), url(https://fonts.gstatic.com/s/notoserifjp/v7/xn77YHs72GKoTvER4Gn3b5eMZGKLRkg.otf) format('opentype');
+}
 .anounce {
   margin-top: 1mm;
   color: tomato;
@@ -73,7 +85,7 @@ table.print .toArea .nameBlock {
   width: 70mm;
   bottom: 0;
   left: 12mm;
-  font-family: "MS Mincho";
+  font-family: 'Noto Serif JP', serif;
   font-weight: bold;
   text-align: center;
 }
@@ -88,7 +100,7 @@ table.print .toArea .nameBlock .name .title {
   margin-left: 1mm;
 }
 table.print .fromArea {
-  font-family: "MS Mincho";
+  font-family: 'Noto Serif JP', serif;
   border-top: solid 1px #123456;
   color: #123456;
   position: absolute;

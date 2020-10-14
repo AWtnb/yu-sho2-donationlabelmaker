@@ -3,6 +3,9 @@
 https://www.a-one.co.jp/product/search/detail.php?id=60208
 https://www.a-one.co.jp/product/search/detail.php?id=61208
 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700');
+@serifFontFamily: 'Noto Serif JP', serif;
+
 .anounce {
     margin-top: 1mm;
     color: tomato;
@@ -72,7 +75,7 @@ table.print {
             width: 70mm;
             bottom: 0;
             left: 12mm;
-            font-family: "MS Mincho";
+            font-family: @serifFontFamily;
             font-weight: bold;
             text-align: center;
             .name {
@@ -88,7 +91,7 @@ table.print {
         }
     }
     .fromArea {
-        font-family: "MS Mincho";
+        font-family: @serifFontFamily;
         border-top: solid 1px #123456;
         color: #123456;
         position: absolute;
