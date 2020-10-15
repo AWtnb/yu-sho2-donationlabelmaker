@@ -108,7 +108,7 @@ window.onload = function(){
             const nameBlock = cells[c].querySelector(".toArea .nameBlock");
             const nameElem = nameBlock.querySelector(".name");
             const titleSpan = nameBlock.querySelector(".title");
-            if (nameElem.textContent.length >= 10) {
+            if (nameElem.textContent.length >= 10 || nameElem.innerHTML.indexOf("<br>") != -1) {
                 nameElem.style.fontSize = "18pt";
                 titleSpan.style.fontSize = "14pt";
                 nameBlock.style.textAlign = "start";

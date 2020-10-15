@@ -91,6 +91,7 @@ table.print .toArea .nameBlock {
 }
 table.print .toArea .nameBlock .name {
   font-size: 23pt;
+  line-height: 1.2;
 }
 table.print .toArea .nameBlock .name .sub {
   font-size: 12pt;
