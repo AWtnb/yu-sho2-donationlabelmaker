@@ -44,8 +44,9 @@ img {
     border-radius: 6px;
 }
 
-input {
+input[type="button"] {
     margin:0 .25em;
+    padding: 6px;
     border-radius: 6px;
 }
 input[type="file"] {
