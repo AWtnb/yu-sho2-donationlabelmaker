@@ -95,6 +95,9 @@ window.onload = function(){
                 ${stampMarkup}
                 ${viaMarkup}
             </div>`;
+        if (!d.name && !d.title && !d.place && !d.zipcode && !d.address && !d.from) {
+            return "";
+        }
         return markupHTML;
     });
     // overwrite each td.
@@ -106,12 +109,14 @@ window.onload = function(){
         for (let c = 0; c < cells.length; c++) {
             cells[c].innerHTML = markup[labelIndex];
             const nameBlock = cells[c].querySelector(".toArea .nameBlock");
-            const nameElem = nameBlock.querySelector(".name");
-            const titleSpan = nameBlock.querySelector(".title");
-            if (nameElem.textContent.length >= 10 || nameElem.innerHTML.indexOf("<br>") != -1) {
-                nameElem.style.fontSize = "18pt";
-                titleSpan.style.fontSize = "14pt";
-                nameBlock.style.textAlign = "start";
+            if (nameBlock) {
+                const nameElem = nameBlock.querySelector(".name");
+                const titleSpan = nameBlock.querySelector(".title");
+                if (nameElem.textContent.length >= 10 || nameElem.innerHTML.indexOf("<br>") != -1) {
+                    nameElem.style.fontSize = "18pt";
+                    titleSpan.style.fontSize = "14pt";
+                    nameBlock.style.textAlign = "start";
+                }
             }
             labelIndex += 1;
             if (labelIndex == markup.length) {
