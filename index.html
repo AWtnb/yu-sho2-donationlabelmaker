@@ -73,7 +73,7 @@
     </tbody>
 </table>
 
-<p>（各セルを直接編集することもできます）</p>
+<p>↑各セルを直接編集することもできます。<br>1行が長い場合（字が赤くなります）は適宜改行してください。</p>
 
 <form name="form_condition" class="condition">
     <p><input type="checkbox" name="yuMailFlag" value="asYumail" checked="checked"> ゆうメールとして発送する</p>
@@ -112,9 +112,16 @@ function import_tsv2table(lines, tableObj) {
             const labelElement = line.split(/\t/g);
             for (let i = 0; i <= 5; i++) {
                 const currentCell = row.insertCell(i);
-                const text = labelElement[i].trim()
-                    .replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3");
-                currentCell.innerText = zen2han(text.trim());
+                const tdText = zen2han(labelElement[i].trim());
+                if (i == 3) {
+                    currentCell.innerText = tdText.replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3");
+                }
+                else {
+                    currentCell.innerText = tdText;
+                }
+                if ([2,4].indexOf(i) != -1 && tdText.length > 20) {
+                    currentCell.style.color = "#f92255"
+                }
             }
         });
 }
