@@ -16,7 +16,7 @@
 <img src="img/img_example.png">
 <p>下記ボックスに Excel から図のようにコピー＆ペーストしてください。</p>
 <form name="form_toImport" class="inputForm">
-    <textarea name="textarea1" placeholder="ここにペースト！" class="input"></textarea>
+    <textarea name="textarea1" placeholder="ここにペースト！" class="input" autofocus="on"></textarea>
 </form>
 
 <div class="accordionBox">
@@ -129,6 +129,20 @@ function import_tsv2table(lines, tableObj) {
 function openLabel() {
     window.open('./print_page.html', 'newwindow', 'width=700,height=890');
 }
+
+document.addEventListener("keyup", function(e){
+    const INPUTS = ["TEXTAREA", "TABLE"];
+    const pressed = (e.ctrlKey ? "C-" : "") + (e.altKey ? "A-" : "") + (e.shiftKey ? "S-" : "") + e.key.toLowerCase();
+    if (!INPUTS.includes(e.target.tagName)) {
+        if (e.key.toLowerCase() == "p") {
+            document.querySelector("textarea.input").focus();
+        }
+        else if (e.key.toLowerCase() == "s") {
+            document.querySelectorAll("input[type=button]")[2].focus();
+        }
+    }
+}, false);
+
 </script>
 
 <!--
