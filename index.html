@@ -119,7 +119,7 @@ function import_tsv2table(lines, tableObj) {
                 else {
                     currentCell.innerText = tdText;
                 }
-                if ([2,4].indexOf(i) != -1 && tdText.length > 20) {
+                if (([2,4].indexOf(i) != -1 && tdText.length > 20) || (i == 5 && tdText.length > 10)) {
                     currentCell.style.color = "#f92255"
                 }
             }
