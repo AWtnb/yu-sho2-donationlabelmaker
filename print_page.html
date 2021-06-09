@@ -32,22 +32,24 @@
         </table>
     </section>
 <script>
-window.onload = function(){
-    const sourceTable = window.opener.document.querySelector('#table1');
-    const data = [];
-    for (let r = 1; r < sourceTable.rows.length; r++) {
-        let row = sourceTable.rows[r];
-        data.push({
-            name:    (row.cells[0].innerText || ""),
+
+const SOURCE_TABLE = window.opener.document.querySelector('#table1');
+
+function loadBaseData(){
+    return Array.from(SOURCE_TABLE.rows).slice(1).map(row => {
+        return {
+            name:    (row.cells[0].innerText.replace(/[\r?\n]/g, "<br>") || ""),
             title:   (row.cells[1].innerText || ""),
-            place:   (row.cells[2].innerText || ""),
+            place:   (row.cells[2].innerText.replace(/[\r?\n]/g, "<br>") || ""),
             zipcode: (row.cells[3].innerText || ""),
-            address: (row.cells[4].innerText || ""),
-            from:    (row.cells[5].innerText || ""),
-        });
-    }
-    // add print sheet if needed
-    let nSheet = Math.ceil(data.length / 8);
+            address: (row.cells[4].innerText.replace(/[\r?\n]/g, "<br>") || ""),
+            from:    (row.cells[5].innerText.replace(/[\r?\n]/g, "<br>") || ""),
+        }
+    });
+}
+
+function addSection(data) {
+    const nSheet = Math.ceil(data.length / 8);
     if (nSheet > 1) {
         const topSheet = document.querySelector("#topSheet");
         for (let n = 0; n < nSheet - 1; n++) {
@@ -56,58 +58,67 @@ window.onload = function(){
             document.body.appendChild(wrapper);
         }
     }
-    // markup data as html with html template.
-    const conditionForm = window.opener.document.form_condition;
-    const stampMarkup = (conditionForm.yuMailFlag.checked)?
-        `<div class="stamp"><p>ゆうメール</p></div>` :
-        "";
-    const viaMarkup = (conditionForm.viaFlag.checked)? 
-        `<div class="via">気付</div>` :
-        "";
-    const markup = data.map(d => {
-        const markupHTML =
-            `<div class="toArea">
-                <div class="stamp"><p>謹呈</p></div>
-                <div class="editable">
-                    <p class="zipcode">〒${d.zipcode}</p>
-                    <div class="addressBlock">
-                        <p class="address">${(d.address).replace(/[\r?\n]/g, "<br>")}</p>
-                        <p class="place">${(d.place).replace(/[\r?\n]/g, "<br>")}</p>
-                    </div>
-                    <div class="nameBlock">
-                        <p class="name">${(d.name).replace(/[\r?\n]/g, "<br>").replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}<span class="title">${d.title}</span></p>
-                    </div>
-                </div>
+}
+
+const CONDITION_FORM = window.opener.document.form_condition;
+
+function getStampHtml() {
+    if (CONDITION_FORM.yuMailFlag.checked) {
+        return `<div class="stamp"><p>ゆうメール</p></div>`;
+    }
+    return "";
+}
+function getViaHtml() {
+    if (CONDITION_FORM.viaFlag.checked) {
+        return `<div class="via">気付</div>`;
+    }
+    return "";
+}
+
+function getLabelMarkup(data) {
+    return data.map(d => {
+        return "" +
+    `<div class="toArea">
+        <div class="stamp"><p>謹呈</p></div>
+        <p class="zipcode">〒${d.zipcode}</p>
+        <div class="editable">
+            <div class="addressBlock">
+                <p class="address">${d.address}</p>
+                <p class="place">${d.place}</p>
             </div>
-            <div class="fromArea">
-                <div class="addressBlock">
-                    <div class="company"><span class="kabuMark">&#x337F;</span><span class="companyName">有斐閣</span><span class="department">書籍編集第2部</span></div>
-                    <div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>
-                </div>
-                <div class="contact">
-                    <p><span class="tel">電話</span><span class="num">03(3264)1315番</span></p>
-                    <p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>
-                    <p class="url">http://www.yuhikaku.co.jp/</p>
-                </div>
-                <div class="editable">
-                    <div class="nameBlock"><p>${(d.from).replace(/[\r?\n]/g,"<br>")}</p></div>
-                </div>
-                ${stampMarkup}
-                ${viaMarkup}
-            </div>`;
-        if (!d.name && !d.title && !d.place && !d.zipcode && !d.address && !d.from) {
-            return "";
-        }
-        return markupHTML;
+            <div class="nameBlock">
+                <p class="name">${(d.name).replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}<span class="title">${d.title}</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="fromArea">
+        <div class="addressBlock">
+            <div class="company"><span class="kabuMark">&#x337F;</span><span class="companyName">有斐閣</span><span class="department">書籍編集第2部</span></div>
+            <div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>
+        </div>
+        <div class="contact">
+            <p><span class="tel">電話</span><span class="num">03(3264)1315番</span></p>
+            <p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>
+            <p class="url">http://www.yuhikaku.co.jp/</p>
+        </div>
+        <div class="editable">
+            <div class="nameBlock"><p>${d.from}</p></div>
+        </div>
+        ${getStampHtml()}
+        ${getViaHtml()}
+    </div>`;
+
     });
-    // overwrite each td.
-    let labelIndex = 0;
+}
+
+function updateTable(markup) {
+    let labelIdx = 0;
     const printTable = document.querySelectorAll(".print");
     for (let i = 0; i < printTable.length; i++) {
         const targetTable = printTable[i];
         const cells = targetTable.querySelectorAll("td");
         for (let c = 0; c < cells.length; c++) {
-            cells[c].innerHTML = markup[labelIndex];
+            cells[c].innerHTML = markup[labelIdx];
             const nameBlock = cells[c].querySelector(".toArea .nameBlock");
             if (nameBlock) {
                 const nameElem = nameBlock.querySelector(".name");
@@ -118,18 +129,30 @@ window.onload = function(){
                     nameBlock.style.textAlign = "start";
                 }
             }
-            labelIndex += 1;
-            if (labelIndex == markup.length) {
-                labelIndex = 0;
+            labelIdx += 1;
+            if (labelIdx == markup.length) {
+                labelIdx = 0;
                 cells[c].style.borderBottomColor = "#999";
                 cells[c].style.borderRightColor = "#999";
             }
         }
     }
+}
+
+window.onload = function(){
+    const data = loadBaseData();
+
+    addSection(data);
+
+    const markup = getLabelMarkup(data);
+
+    updateTable(markup);
+
     const editable = document.querySelectorAll(".editable *");
     Array.from(editable).forEach(el => {
         el.setAttribute("contenteditable", "true");
     });
+
 }
 </script>
 </body>
