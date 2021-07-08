@@ -112,11 +112,13 @@ function zen2han(str) {
     });
 }
 
-function import_tsv2table(lines, tableObj) {
+function import_tsv2table(multilne, tableObj) {
+    const lines = multilne.split(/(\r?\n)+/g);
+    if (lines[0].split(/\t/g).length < 6) {
+        alert("列数が足りません！ 記載内容がなくても Excel から6列を選択してください。");
+    }
     resetTable(tableObj);
-    lines.split(/[\r\n]+/g)
-        .filter(line => line)
-        .forEach((line) => {
+    lines.filter(line => line.match(/./)).forEach(line => {
             const row = tableObj.insertRow(-1);
             const labelElement = line.split(/\t/g);
             for (let i = 0; i <= 5; i++) {
