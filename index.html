@@ -14,27 +14,36 @@
     <li>セル内で改行されている場合には正常に動作しません。</li>
 </ul>
 <img src="img/img_example.png">
-<p>下記ボックスに Excel から図のようにコピー＆ペーストしてください。</p>
-<form name="form_toImport" class="inputForm">
-    <textarea name="textarea1" placeholder="ここにペースト！" class="input" autofocus="on"></textarea>
-</form>
 
-<div class="accordionBox">
+<table class="modeSelect">
+    <thead>
+        <th>コピー＆ペースト方式</th>
+        <th>ファイル読み込み方式</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <form class="inputForm">
+                    <textarea class="userInput" placeholder="Excel から図のようにコピーして貼り付けてください" autofocus="on"></textarea>
+                </form>
+            </td>
+            <td>
+                <p>テンプレートは<a href="https://www.dropbox.com/s/49d7cwdlsc1aun1/donation_label_template.xlsx?dl=1" target="blank">こちら</a></p>
+                <p><input type="file" id="import_xlsx" /></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p><input type="button" value="下の表に読み込む" onclick="clickBtn_importFromTsv()" /></p>
+            </td>
+            <td>
+                <p><input type="button" value="Excel から読み込む" onclick="clickBtn_importFromXlsx()" /></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-    <p>
-        <input type="button" value="下の表に読み込む" onclick="clickBtn_importFromTsv()" />
-        <label for="hiddenLabel">Excel ファイルから表に読み込むにはこちらをクリック！</label>
-    </p>
-
-    <input type="checkbox" id="hiddenLabel" class="cssAccordion" />
-    <div class="wrap_surround">
-        <p>テンプレートは<a href="https://www.dropbox.com/s/49d7cwdlsc1aun1/donation_label_template.xlsx?dl=1" target="blank">こちら</a></p>
-        <p><input type="file" id="import_xlsx" /></p>
-        <p><input type="button" value="Excel から読み込む" onclick="clickBtn_importFromXlsx()" /></p>
-    </div>
-</div>
-
-<table id="table1" contenteditable="true">
+<table id="table1" contenteditable="true" class="dataSource">
     <thead>
         <tr>
             <th>氏名</th>
@@ -92,7 +101,7 @@ function resetTable(tableObj){
 }
 
 function clickBtn_importFromTsv() {
-    const tsv_toImport = document.querySelector(".inputForm textarea.input").value;
+    const tsv_toImport = document.querySelector(".inputForm textarea.userInput").value;
     const targetTable = document.querySelector("#table1");
     import_tsv2table(tsv_toImport, targetTable);
 }
