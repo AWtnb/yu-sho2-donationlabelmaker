@@ -87,7 +87,7 @@ textarea {
 }
 
 a {
-    color: #ff8400;
+    color: #0366D6;
     text-decoration: none;
 }
 
@@ -111,7 +111,7 @@ footer p {
 
 .accordionBox label {
     display: block;
-    color: #ff8400;
+    color: #0366D6;
     font-size: .9em;
     cursor :pointer;
 }
