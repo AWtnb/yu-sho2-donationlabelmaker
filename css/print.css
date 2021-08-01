@@ -49,21 +49,26 @@ table.print .toArea {
 }
 table.print .toArea .stamp {
   position: absolute;
-  left: 82mm;
+  left: 80mm;
   top: 5mm;
-  width: 10mm;
-  writing-mode: vertical-lr;
+  width: 12mm;
+  height: 25mm;
   border: 2px solid black;
-  padding: 0.5mm;
+  line-height: 1;
 }
-table.print .toArea .stamp p {
-  font-size: 28pt;
+table.print .toArea .stamp div.kin,
+table.print .toArea .stamp div.tei {
+  font-size: 10mm;
   font-weight: bold;
-  text-align: center;
   font-family: "Noto Serif JP";
-  letter-spacing: 5mm;
-  margin-bottom: -5mm;
-  margin-left: -2mm;
+  position: absolute;
+  left: 1mm;
+}
+table.print .toArea .stamp div.kin {
+  top: 1mm;
+}
+table.print .toArea .stamp div.tei {
+  top: 13mm;
 }
 table.print .toArea .zipcode {
   position: absolute;

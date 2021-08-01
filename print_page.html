@@ -3,7 +3,7 @@
 <html lang="ja">
 <meta charset="utf-8"/>
 <head>
-    <title>print page</title>
+    <title>label</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
     <link rel="stylesheet" type="text/css" href="./css/print.css">
 </head>
@@ -79,7 +79,7 @@ function getLabelMarkup(data) {
     return data.map(d => {
         return "" +
     `<div class="toArea">
-        <div class="stamp"><p>謹呈</p></div>
+        <div class="stamp"><div class="kin">謹</div><div class="tei">呈</div></div>
         <p class="zipcode">〒${d.zipcode}</p>
         <div class="editable">
             <div class="addressBlock">
