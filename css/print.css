@@ -171,6 +171,7 @@ table.print .fromArea .contact .num {
 }
 table.print .fromArea .nameBlock {
   position: absolute;
+  line-height: 1.1;
   top: 17mm;
   left: 38mm;
   width: 44mm;
