@@ -6,13 +6,13 @@ https://www.a-one.co.jp/product/search/detail.php?id=61208
   font-family: 'Noto Serif JP';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/notoserifjp/v15/xn7mYHs72GKoTvER4Gn3b5eMXNg.otf) format('opentype');
+  src: url(https://fonts.gstatic.com/s/notoserifjp/v19/xn7mYHs72GKoTvER4Gn3b5eMXNg.otf) format('opentype');
 }
 @font-face {
   font-family: 'Noto Serif JP';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/notoserifjp/v15/xn77YHs72GKoTvER4Gn3b5eMZGKLRkg.otf) format('opentype');
+  src: url(https://fonts.gstatic.com/s/notoserifjp/v19/xn77YHs72GKoTvER4Gn3b5eMZGKLRkg.otf) format('opentype');
 }
 .anounce {
   margin-top: 1mm;
@@ -29,6 +29,7 @@ table.print {
   top: 10.5mm;
   left: 8mm;
   border-collapse: collapse;
+  display: block;
 }
 table.print p {
   margin: 0;
