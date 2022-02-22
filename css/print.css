@@ -24,6 +24,9 @@ https://www.a-one.co.jp/product/search/detail.php?id=61208
     visibility: hidden;
   }
 }
+.sheet {
+  margin-top: 1px;
+}
 table.print {
   position: absolute;
   top: 10.5mm;
