@@ -34,10 +34,10 @@
     </section>
 <script>
 
-const SOURCE_TABLE = window.opener.document.querySelector('#table1');
+const SOURCE_TABLE = window.opener.document.querySelector('#table1 > tbody');
 
 function loadBaseData(){
-    return Array.from(SOURCE_TABLE.rows).slice(1).map(row => {
+    return Array.from(SOURCE_TABLE.rows).map(row => {
         return {
             name:    (row.cells[0].innerText.replace(/[\r?\n]/g, "<br>") || ""),
             title:   (row.cells[1].innerText || ""),
