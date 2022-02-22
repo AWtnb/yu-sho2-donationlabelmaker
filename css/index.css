@@ -49,22 +49,22 @@ table.modeSelect td {
     min-width: 300px;
     border-top: none;
     border-bottom: none;
+    position: relative;
 }
 
-table.modeSelect textarea {
+table.modeSelect .inputForm {
+    min-height: 6rem;
+}
+
+table.modeSelect .inputForm textarea {
     width: 90%;
-    height: 5rem;
     border-radius: 6px;
     padding: .5em;
     margin: 3px;
     border: 2px solid #9FEE00;
 }
-table.modeSelect tr:nth-child(2) {
+table.modeSelect .load {
     text-align: end;
-    height: 10px;
-}
-table.modeSelect input {
-    margin: 0 4px;
 }
 table.modeSelect p {
     margin: 4px;

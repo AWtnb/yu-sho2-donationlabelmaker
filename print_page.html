@@ -55,7 +55,8 @@ function addSection(data) {
         const topSheet = document.querySelector("#topSheet");
         for (let n = 0; n < nSheet - 1; n++) {
             const wrapper = document.createElement("section");
-            wrapper.innerHTML = topSheet.outerHTML;
+            wrapper.innerHTML = topSheet.innerHTML;
+            wrapper.classList.add("sheet");
             document.body.appendChild(wrapper);
         }
     }
