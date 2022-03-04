@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
-<meta charset="utf-8" />
-
 <head>
+    <meta charset="utf-8" />
     <title>献本ラベル作成</title>
     <link rel="stylesheet" type="text/css" href="./css/index.css">
     <link rel="icon"
@@ -22,8 +21,10 @@
 
     <table class="modeSelect">
         <thead>
-            <th>コピー＆ペースト方式</th>
-            <th>ファイル読み込み方式</th>
+            <tr>
+                <th>コピー＆ペースト方式</th>
+                <th>ファイル読み込み方式</th>
+            </tr>
         </thead>
         <tbody>
             <tr>
@@ -168,24 +169,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.11.19/xlsx.full.min.js"></script>
     <script>
         function clickBtn_importFromXlsx() {
-            const targetTable = document.querySelector("#table1");
-            resetTable(targetTable);
-            import_xlsx2table(targetTable);
+            const tbody = document.querySelector("#table1 > tbody");
+            const headers = Array.from(document.querySelector("#table1 > thead > tr").cells).map(c => c.innerText);
+            resetTable(tbody);
+            import_xlsx2table(tbody, headers);
         }
         const X = XLSX;
 
         function to_json(workbook) {
             return result = workbook.SheetNames.map(sheetName => {
                 return {
-                    sheetName: sheetName,
-                    sheetContents: X.utils.sheet_to_json(
+                    "sheetName": sheetName,
+                    "sheetContents": X.utils.sheet_to_json(
                         workbook.Sheets[sheetName], { raw: true }
                     )
                 }
             });
         }
 
-        function import_xlsx2table(tableObj) {
+        function import_xlsx2table(tbody, headers) {
             const inputFiles = document.querySelector("#import_xlsx");
             const targetFile = inputFiles.files[0];
             const reader = new FileReader();
@@ -199,11 +201,11 @@
                 const wbContents = to_json(wb);
                 const sheetData = wbContents[0].sheetContents;
                 sheetData.forEach(record => {
-                    const row = tableObj.insertRow(-1);
+                    const row = tbody.insertRow(-1);
                     for (let i = 0; i <= 5; i++) {
                         const currentCell = row.insertCell(i);
-                        const recordType = tableObj.rows[0].cells[i].innerText;
-                        currentCell.innerText = record[recordType] || "";
+                        const recordKey = headers[i];
+                        currentCell.innerText = record[recordKey] || "";
                     }
                 });
             };
