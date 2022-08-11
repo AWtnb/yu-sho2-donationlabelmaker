@@ -51,8 +51,8 @@
         <data-table :address="addressArr"></data-table>
 
         <ul>
-            <li><input type="checkbox" v-model="asYumail" id="asYumail"> ゆうメールとして発送する</li>
-            <li><input type="checkbox" v-model="asVia" id="asVia"> 編集部気付で発送する</li>
+            <li><input type="checkbox" v-model="asYumail" id="asYumail"> <label for="asYumail">ゆうメールとして発送する</label></li>
+            <li><input type="checkbox" v-model="asVia" id="asVia"> <label for="asVia">編集部気付で発送する（≒差出人が社員以外）</label></li>
         </ul>
 
         <span><button @click="print">ラベルに出力！</button><strong>※内容が第三者に送信されることはありません</strong></span>
