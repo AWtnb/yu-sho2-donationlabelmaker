@@ -28,16 +28,15 @@ table td,th {
     width: auto !important;
 }
 
-table.dataSource th {
+#srcTable th {
     background-color: #FF7373;
     color: #343434;
     letter-spacing: .125em;
 }
-table.dataSource td {
-    color: #006363;
+#srcTable td {
     padding: .25em;
 }
-table.dataSource tr:hover {
+#srcTable tr:hover {
     background-color: #C9F76F;
 }
 
@@ -76,7 +75,7 @@ img {
     margin: 0 1rem;
 }
 
-input[type="button"] {
+input[type="button"], button {
     margin:0 .25em;
     padding: 6px;
     border-radius: 6px;

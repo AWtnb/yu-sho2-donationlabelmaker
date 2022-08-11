@@ -11,41 +11,159 @@
 <body>
     <h1>有斐閣書籍編集二部 献本ラベル作成</h1>
     <ul>
-        <li>ラベル仕様：<a href="https://www.a-one.co.jp/product/search/detail.php?id=61208" target="_blank">A-one ラベルシール
-                61208</a></li>
+        <li>ラベル仕様：<a href="https://www.a-one.co.jp/product/search/detail.php?id=61208" target="_blank">A-one ラベルシール61208</a></li>
         <li>紙に無駄が出ないように、余りが出た場合はリストの先頭からラベルを埋め直します。</li>
         <li>セル内で改行されている場合には正常に動作しません。</li>
     </ul>
     <img src="img/img_example.png">
 
-    <table class="modeSelect">
-        <thead>
-            <tr>
-                <th>コピー＆ペースト方式</th>
-                <th>ファイル読み込み方式</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <div class="inputForm">
-                        <textarea class="userInput" placeholder="Excel から図のようにコピーして貼り付けてください" autofocus="on"></textarea>
-                    </div>
-                    <div class="load"><input type="button" value="下の表に読み込む" onclick="clickBtn_importFromTsv()" /></div>
-                </td>
-                <td>
-                    <div class="inputForm">
-                        <p>テンプレートは<a href="./template.xlsx" target="blank">こちら</a></p>
-                        <p><input type="file" id="import_xlsx" /></p>
-                    </div>
-                    <div class="load"><input type="button" value="Excel から読み込む" onclick="clickBtn_importFromXlsx()" />
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="app">
+        <table class="modeSelect">
+            <thead>
+                <tr>
+                    <th>コピー＆ペースト方式</th>
+                    <th>ファイル読み込み方式</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="inputForm">
+                            <textarea placeholder="Excel から図のようにコピーして貼り付けてください" autofocus="on" v-model="content"></textarea>
+                            <button @click="load">表に読み込む</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="inputForm">
+                            テンプレートは<a href="./template.xlsx" target="blank">こちら</a>
+                            <input type="file" ref="upfile" @change="onFileSelected"/>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <table id="table1" class="dataSource">
+        <ul>
+            <li>各セルを直接編集することもできます。</li>
+            <li>1行が長い場合は字が赤くなります。適宜改行してください。</li>
+        </ul>
+
+        <data-table :address="addressArr"></data-table>
+
+        <ul>
+            <li><input type="checkbox" v-model="asYumail" id="asYumail"> ゆうメールとして発送する</li>
+            <li><input type="checkbox" v-model="asVia" id="asVia"> 編集部気付で発送する</li>
+        </ul>
+
+        <span><button @click="print">ラベルに出力！</button><strong>※内容が第三者に送信されることはありません</strong></span>
+
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.11.19/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
+<script>
+
+const sample = [
+    {
+        "name": "福沢 諭吉",
+        "honorific": "先生",
+        "place": "慶應義塾大学",
+        "zipcode": "108-8345",
+        "address": "東京都港区三田2-15-45",
+        "from": "聖徳太子",
+    },
+    {
+        "name": "夏目 漱石",
+        "honorific": "先生",
+        "place": "",
+        "zipcode": "113-0023",
+        "address": "東京都文京区向丘2-20-7",
+        "from": "小野妹子",
+    },
+    {
+        "name": "樋口 一葉",
+        "honorific": "先生",
+        "place": "",
+        "zipcode": "113-0033",
+        "address": "東京都文京区本郷4-32・31",
+        "from": "菅原道真",
+    },
+];
+
+function toHalfWidth(str) {
+    return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+    });
+}
+
+function formatPostalCode(s) {
+    return toHalfWidth(s).replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3");
+}
+
+function parseLine(line) {
+    const fields = line.split(/\t/).map(s => s.trim());
+    return {
+        "name": (fields[0] || ""),
+        "honorific": (fields[1] || ""),
+        "place": (fields[2] || ""),
+        "zipcode": formatPostalCode((fields[3] || "")),
+        "address": (fields[4] || ""),
+        "from": (fields[5] || ""),
+    };
+}
+
+const tableCell = {
+    props: {
+        content: {
+            type: String,
+            require: true
+        }
+    },
+    computed:{
+        color: function() {
+            if (String(this.content).length > 20){
+                return "red";
+            }
+            return "#006363";
+        }
+    },
+    template: `<td :style="{color: color}">{{content}}</td>`
+}
+
+const tableRow = {
+    props: {
+        label: {
+            type: Object,
+            require: true
+        }
+    },
+    components: {
+        "table-cell": tableCell
+    },
+    template: `
+    <tr>
+        <table-cell :content="label.name"></table-cell>
+        <table-cell :content="label.honorific"></table-cell>
+        <table-cell :content="label.place"></table-cell>
+        <table-cell :content="label.zipcode"></table-cell>
+        <table-cell :content="label.address"></table-cell>
+        <table-cell :content="label.from"></table-cell>
+    </tr>
+    `
+}
+
+const dataTable = {
+    props: {
+        address: {
+            type: Array,
+            require: true
+        }
+    },
+    components: {
+        "table-row": tableRow
+    },
+    template: `
+    <table id="srcTable">
         <thead>
             <tr>
                 <th>氏名</th>
@@ -57,160 +175,77 @@
             </tr>
         </thead>
         <tbody contenteditable="true">
-            <tr>
-                <td>福澤 諭吉</td>
-                <td>先生</td>
-                <td>慶應義塾大学</td>
-                <td>108-8345</td>
-                <td>東京都港区三田2-15-45</td>
-                <td>聖徳太子</td>
-            </tr>
-            <tr>
-                <td>夏目 漱石</td>
-                <td>先生</td>
-                <td></td>
-                <td>113-0023</td>
-                <td>東京都文京区向丘2-20-7</td>
-                <td>小野妹子</td>
-            </tr>
-            <tr>
-                <td>樋口 一葉</td>
-                <td>先生</td>
-                <td></td>
-                <td>113-0033</td>
-                <td>東京都文京区本郷4-32・31</td>
-                <td>菅原道真</td>
-            </tr>
+            <table-row v-for="(adr, idx) in address" :key="idx" :label="adr"></table-row>
         </tbody>
     </table>
+    `
+}
 
-    <p>↑各セルを直接編集することもできます。<br>1行が長い場合（字が赤くなります）は適宜改行してください。</p>
+// javascript fot importing Excel
+//     https://docs.sheetjs.com/#sheetjs-js-xlsx
+//     https://qiita.com/okoppe8/items/995b57d4e3d6d512b916
+//     https://qiita.com/tmak_tsukamoto/items/9d29fe288324b9206138
 
-    <form name="form_condition" class="condition">
-        <p><input type="checkbox" name="yuMailFlag" value="asYumail" checked="checked"> ゆうメールとして発送する</p>
-        <p><input type="checkbox" name="viaFlag" value="sendViaYuhikaku" checked="checked"> 編集部気付で発送する</p>
-    </form>
-
-    <p><input type="button" value="表の内容をラベルに出力！" onclick="openLabel()" /> <sub><strong>※
-                内容が第三者に送信されることはありません</strong></sub></p>
-
-<script>
-
-    function resetTable(tbody) {
-        const maxRow = tbody.rows.length;
-        for (let r = maxRow - 1; r >= 0; r--) {
-            tbody.deleteRow(r);
-        }
-    }
-
-    function clickBtn_importFromTsv() {
-        const tsv = document.querySelector(".inputForm textarea.userInput").value;
-        const tbody = document.querySelector("#table1 > tbody");
-        import_tsv2table(tsv, tbody);
-    }
-
-    function toHalfWidth(str) {
-        return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
-            return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+function loadXlsx(e) {
+    const uint8 = new Uint8Array(e.target.result);
+    let wb = XLSX.read(uint8, { type: "array" });
+    const shtAoa = wb.SheetNames.map(sheetName => XLSX.utils.sheet_to_json(
+        // https://docs.sheetjs.com/docs/api/utilities/#array-output
+        wb.Sheets[sheetName], { header: 1, raw: true }
+    ));
+    shtAoa[0].slice(1).forEach(record => {
+        vm.addressArr.push({
+            "name": record[0],
+            "honorific": record[1],
+            "place": record[2],
+            "zipcode": record[3],
+            "address": record[4],
+            "from": record[5],
         });
-    }
+    });
+}
 
-    function import_tsv2table(multilne, tbody) {
-        const lines = multilne.split(/\n+/);
-        if (lines[0].split(/\t/g).length < 6) {
-            alert("列数が足りません！ 記載内容がなくても Excel から6列を選択してください。");
+const vm = Vue.createApp({
+    data: function () {
+        return {
+            content: "",
+            addressArr: sample,
+            asYumail: true,
+            asVia: true,
         }
-        resetTable(tbody);
-        lines.filter(line => line.trim()).forEach(line => {
-            const row = tbody.insertRow(-1);
-            const labelElement = line.split(/\t/);
-            for (let i = 0; i <= 5; i++) {
-                const currentCell = row.insertCell(i);
-                const tdText = toHalfWidth(labelElement[i].trim());
-                currentCell.innerText = (i == 3) ? tdText.replace(/^(\d{3})([^\d])?(\d{4})$/, "$1-$3") : tdText;
-                if (i == 2 || i == 4) {
-                    if (tdText.length > 20) {
-                        currentCell.style.color = "#f92255"
-                    }
-                }
-                if (i == 5 && tdText.length > 10) {
-                    currentCell.style.color = "#f92255"
-                }
-            }
-        });
-    }
-
-    function openLabel() {
-        window.open('./print_page.html', 'newwindow', 'width=700,height=890');
-    }
-
-    document.addEventListener("keyup", function (e) {
-        const INPUTS = ["TEXTAREA", "TABLE"];
-        const pressed = (e.ctrlKey ? "C-" : "") + (e.altKey ? "A-" : "") + (e.shiftKey ? "S-" : "") + e.key.toLowerCase();
-        if (!INPUTS.includes(e.target.tagName)) {
-            if (e.key.toLowerCase() == "p") {
-                document.querySelector("textarea.input").focus();
-            }
-            else if (e.key.toLowerCase() == "s") {
-                document.querySelectorAll("input[type=button]")[2].focus();
-            }
-        }
-    }, false);
-
-</script>
-
-<!--
-javascript fot importing Excel
-    https://qiita.com/okoppe8/items/995b57d4e3d6d512b916
-    http://atomicbox.tank.jp/temporary/1490/
-    https://qiita.com/tmak_tsukamoto/items/9d29fe288324b9206138
--->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.11.19/xlsx.full.min.js"></script>
-<script>
-    function clickBtn_importFromXlsx() {
-        const tbody = document.querySelector("#table1 > tbody");
-        const headers = Array.from(document.querySelector("#table1 > thead > tr").cells).map(c => c.innerText);
-        resetTable(tbody);
-        import_xlsx2table(tbody, headers);
-    }
-    const X = XLSX;
-
-    function to_json(workbook) {
-        return result = workbook.SheetNames.map(sheetName => {
-            return {
-                "sheetName": sheetName,
-                "sheetContents": X.utils.sheet_to_json(
-                    workbook.Sheets[sheetName], { raw: true }
-                )
-            }
-        });
-    }
-
-    function import_xlsx2table(tbody, headers) {
-        const inputFiles = document.querySelector("#import_xlsx");
-        const targetFile = inputFiles.files[0];
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const data = e.target.result;
-            const uint8 = new Uint8Array(data);
-            let wb = X.read(uint8, {
-                type: "array"
+    },
+    computed: {
+        contentLines: function() {
+            return this.content.split(/\n/).map(line => String(line)).filter(line => line.trim());
+        },
+    },
+    components: {
+        "data-table": dataTable
+    },
+    methods: {
+        reset: function(){
+            this.addressArr = [];
+        },
+        load: function(){
+            this.reset();
+            this.contentLines.forEach(line => {
+                this.addressArr.push(parseLine(line));
             });
-
-            const wbContents = to_json(wb);
-            const sheetData = wbContents[0].sheetContents;
-            sheetData.forEach(record => {
-                const row = tbody.insertRow(-1);
-                for (let i = 0; i <= 5; i++) {
-                    const currentCell = row.insertCell(i);
-                    const recordKey = headers[i];
-                    currentCell.innerText = record[recordKey] || "";
-                }
-            });
-        };
-
-        reader.readAsArrayBuffer(targetFile);
+        },
+        onFileSelected: function(){
+            this.reset();
+            const selected = this.$refs.upfile.files[0];
+            const reader = new FileReader();
+            reader.onload = loadXlsx;
+            reader.readAsArrayBuffer(selected);
+        },
+        print: function(){
+            window.open('./print_page.html', 'newwindow', 'width=800,height=890');
+        }
     }
+}).mount("#app");
+
+
 </script>
 
 </body>
