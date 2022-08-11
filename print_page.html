@@ -9,153 +9,251 @@
     <link rel="stylesheet" type="text/css" href="./css/print.css">
 </head>
 <body class="A4">
-    <section class="sheet" id="topSheet">
-        <div class="anounce">※宛名・宛先と差出人はこのページで直接編集することができます。</div>
-        <table class="print">
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+    <div id="app">
+        <sheets :sheets-arr="sheetsData"></sheets>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
 <script>
 
-const SOURCE_TABLE = window.opener.document.querySelector('#srcTable > tbody');
 
-function loadBaseData(){
-    return Array.from(SOURCE_TABLE.rows).map(row => {
+class Allocator {
+    constructor(basedata) {
+        this.nRow = 4;
+        this.nCol = 2;
+        this.labelLimit = this.nRow * this.nCol;
+        this.basedata = basedata;
+        this.filled = this.basedata.map((d, i) => ({
+            inner: d,
+            className: (i == this.basedata.length - 1)? "mark" : "unmark"
+        }));
+        this.fillRest();
+    }
+
+    fillRest(){
+        const rest = this.labelLimit - this.basedata.length % this.labelLimit;
+        const unit = this.basedata.length;
+        for (let i = 0; i < rest; i++) {
+            this.filled.push({
+                inner: this.basedata[i%unit],
+                className: (i % unit == unit - 1)? "mark" : "unmark"
+            });
+        }
+    }
+
+    allocate() {
+        const trs = [];
+        let cellStack = [];
+        for (let i = 0; i < this.filled.length; i++) {
+            const label = this.filled[i];
+            cellStack.push(label)
+            if (cellStack.length == this.nCol || i == this.filled.length - 1) {
+                trs.push({cells: cellStack});
+                cellStack = [];
+            }
+        }
+        const sheets = [];
+        let rowStack = [];
+        for (let i = 0; i < trs.length; i++) {
+            const tr = trs[i];
+            rowStack.push(tr)
+            if (rowStack.length == this.nRow || i == trs.length - 1) {
+                sheets.push({rows: rowStack});
+                rowStack = [];
+            }
+        }
+        return sheets;
+    }
+}
+
+const sendTo = {
+    props: ["name", "honorific"],
+    computed: {
+        className: function(){
+            if (this.name.length > 8) {
+                return "longer";
+            }
+            return "shorter";
+        },
+    },
+    template: `
+    <div class="nameBlock">
+        <div :class="className">
+            <span>{{name}}</span>
+            <span class="honorific">{{honorific}}</span>
+        </div>
+    </div>
+    `
+}
+
+const stamp = {
+    template: `
+    <div class="stamp">
+        <div class="kin">謹</div>
+        <div class="tei">呈</div>
+    </div>
+    `
+}
+
+const toAddress = {
+    props: ["address", "place"],
+    template: `
+    <div class="addressBlock">
+        <div class="address">{{address}}</div>
+        <div class="place">{{place}}</div>
+    </div>
+    `
+}
+
+const fromAddress = {
+    template: `
+    <div class="addressBlock">
+        <div class="company">
+            <span class="kabuMark">&#x337F;</span>
+            <span class="companyName">有斐閣</span>
+            <span class="department">書籍編集第2部</span>
+        </div>
+        <div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>
+    </div>
+    `
+}
+
+const contact = {
+    template: `
+    <div class="contact">
+        <div>
+            <span class="tel">電話</span>
+            <span class="num">03(3264)1315番</span>
+        </div>
+        <div>
+            <span class="fax">FAX</span>
+            <span class="num">03(3264)4630番</span>
+        </div>
+        <div class="url">http://www.yuhikaku.co.jp/</div>
+    </div>
+    `
+}
+
+const labelCell = {
+    props: ["label"],
+    data: function () {
         return {
-            name:    (row.cells[0].innerText.replace(/[\r?\n]/g, "<br>") || ""),
-            title:   (row.cells[1].innerText || ""),
-            place:   (row.cells[2].innerText.replace(/[\r?\n]/g, "<br>") || ""),
-            zipcode: (row.cells[3].innerText || ""),
-            address: (row.cells[4].innerText.replace(/[\r?\n]/g, "<br>") || ""),
-            from:    (row.cells[5].innerText.replace(/[\r?\n]/g, "<br>") || ""),
+            asYumail: window.opener.document.querySelector("#asYumail").checked,
+            asVia: window.opener.document.querySelector("#asVia").checked,
         }
-    });
-}
-
-function addSection(data) {
-    const nSheet = Math.ceil(data.length / 8);
-    if (nSheet > 1) {
-        const topSheet = document.querySelector("#topSheet");
-        for (let n = 0; n < nSheet - 1; n++) {
-            const wrapper = document.createElement("section");
-            wrapper.innerHTML = topSheet.innerHTML;
-            wrapper.classList.add("sheet");
-            document.body.appendChild(wrapper);
-        }
-    }
-}
-
-const CONDITION_FORM = window.opener.document.form_condition;
-
-function getStampHtml() {
-    if (CONDITION_FORM.yuMailFlag.checked) {
-        return `<div class="stamp"><p>ゆうメール</p></div>`;
-    }
-    return "";
-}
-function getViaHtml() {
-    if (CONDITION_FORM.viaFlag.checked) {
-        return `<div class="via">気付</div>`;
-    }
-    return "";
-}
-
-function getLabelMarkup(data) {
-    return data.map(d => {
-        return "" +
-    `<div class="toArea">
-        <div class="stamp"><div class="kin">謹</div><div class="tei">呈</div></div>
-        <p class="zipcode">〒${d.zipcode}</p>
-        <div class="editable">
-            <div class="addressBlock">
-                <p class="address">${d.address}</p>
-                <p class="place">${d.place}</p>
-            </div>
-            <div class="nameBlock">
-                <p class="name">${(d.name).replace(/(^.+?)<br>/, '<span class="sub">$1</span><br>')}<span class="title">${d.title}</span></p>
-            </div>
+    },
+    components: {
+        "stamp": stamp,
+        "to-address": toAddress,
+        "from-address": fromAddress,
+        "send-to": sendTo,
+        "contact": contact,
+    },
+    template: `
+    <div class="toArea">
+        <stamp></stamp>
+        <div class="zipcode">〒{{label.zipcode}}</div>
+        <div contenteditable="true">
+            <to-address :address="label.address" :place="label.place"></to-address>
+            <send-to :name="label.name" :honorific="label.honorific"></send-to>
         </div>
     </div>
     <div class="fromArea">
-        <div class="addressBlock">
-            <div class="company"><span class="kabuMark">&#x337F;</span><span class="companyName">有斐閣</span><span class="department">書籍編集第2部</span></div>
-            <div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>
+        <from-address></from-address>
+        <contact></contact>
+        <div contenteditable="true">
+            <div class="nameBlock">{{label.from}}</div>
         </div>
-        <div class="contact">
-            <p><span class="tel">電話</span><span class="num">03(3264)1315番</span></p>
-            <p><span class="fax">FAX</span><span class="num">03(3264)4630番</span></p>
-            <p class="url">http://www.yuhikaku.co.jp/</p>
-        </div>
-        <div class="editable">
-            <div class="nameBlock"><p>${d.from}</p></div>
-        </div>
-        ${getStampHtml()}
-        ${getViaHtml()}
-    </div>`;
+        <div class="stamp" v-if="asYumail"><span>ゆうメール</span></div>
+        <div class="via" v-if="asVia">気付</div>
+    </div>`
 
-    });
 }
 
-function updateTable(markup) {
-    let labelIdx = 0;
-    const printTable = document.querySelectorAll(".print");
-    for (let i = 0; i < printTable.length; i++) {
-        const targetTable = printTable[i];
-        const cells = targetTable.querySelectorAll("td");
-        for (let c = 0; c < cells.length; c++) {
-            cells[c].innerHTML = markup[labelIdx];
-            const nameBlock = cells[c].querySelector(".toArea .nameBlock");
-            if (nameBlock) {
-                const nameElem = nameBlock.querySelector(".name");
-                const titleSpan = nameBlock.querySelector(".title");
-                if (nameElem.textContent.length >= 10 || nameElem.innerHTML.indexOf("<br>") != -1) {
-                    nameElem.style.fontSize = "18pt";
-                    titleSpan.style.fontSize = "14pt";
-                    nameBlock.style.textAlign = "start";
-                }
-            }
-            labelIdx += 1;
-            if (labelIdx == markup.length) {
-                labelIdx = 0;
-                cells[c].style.borderBottomColor = "#999";
-                cells[c].style.borderRightColor = "#999";
-            }
-        }
+const labelRow = {
+    props: ["cells"],
+    components: {
+        "label-cell": labelCell
+    },
+    template: `
+    <tr>
+        <td v-for="(cell, idx) in cells" :key="idx" :class="cell.className">
+            <label-cell :label="cell.inner"></label-cell>
+        </td>
+    </tr>
+    `
+}
+
+const labelSheet = {
+    props: ["rows"],
+    components: {
+        "label-row": labelRow
+    },
+    template: `
+    <section class="sheet">
+        <div class="anounce">※宛名・宛先はこのページで直接編集できます（改行は Shift+Enter）。</div>
+        <table class="print">
+            <tbody>
+                <label-row v-for="(r, idx) in rows" :key="idx" :cells="r.cells"></label-row>
+            </tbody>
+        </table>
+    </section>
+    `
+}
+
+const sheets = {
+    props: ["sheets-arr"],
+    components: {
+        "label-sheet": labelSheet
+    },
+    template: `
+    <div v-for="(sht, idx) in sheetsArr" :key="idx">
+        <label-sheet :rows="sht.rows"></label-sheet>
+    </div>
+    `
+}
+
+function loadBaseData(){
+    const src = window.opener.document.querySelector('#srcTable tbody');
+    if (!src) {
+        return [{
+            "name": "福沢 諭吉",
+            "honorific": "先生",
+            "place": "慶應義塾大学",
+            "zipcode": "108-8345",
+            "address": "東京都港区三田2-15-45",
+            "from": "聖徳太子",
+        }];
     }
-}
-
-window.onload = function(){
-    const data = loadBaseData();
-
-    addSection(data);
-
-    const markup = getLabelMarkup(data);
-
-    updateTable(markup);
-
-    const editable = document.querySelectorAll(".editable *");
-    Array.from(editable).forEach(el => {
-        el.setAttribute("contenteditable", "true");
+    return Array.from(src.rows).map(row => {
+        return {
+            name:      (row.cells[0].innerText.trim() || ""),
+            honorific: (row.cells[1].innerText.trim() || ""),
+            place:     (row.cells[2].innerText.trim() || ""),
+            zipcode:   (row.cells[3].innerText.trim() || ""),
+            address:   (row.cells[4].innerText.trim() || ""),
+            from:      (row.cells[5].innerText.trim() || ""),
+        }
     });
-
 }
+
+const vm = Vue.createApp({
+    data: function() {
+        return {
+            basedata: loadBaseData(),
+        }
+    },
+    computed: {
+        sheetsData: function(){
+            const alloc = new Allocator(this.basedata);
+            return alloc.allocate();
+        }
+    },
+    components: {
+        "sheets": sheets
+    }
+}).mount("#app");
+
+
 </script>
 </body>
 </html>

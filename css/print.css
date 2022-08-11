@@ -6,13 +6,13 @@ https://www.a-one.co.jp/product/search/detail.php?id=61208
   font-family: 'Noto Serif JP';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/notoserifjp/v19/xn7mYHs72GKoTvER4Gn3b5eMXNg.otf) format('opentype');
+  src: url(https://fonts.gstatic.com/s/notoserifjp/v21/xn7mYHs72GKoTvER4Gn3b5eMXNg.otf) format('opentype');
 }
 @font-face {
   font-family: 'Noto Serif JP';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/notoserifjp/v19/xn77YHs72GKoTvER4Gn3b5eMZGKLRkg.otf) format('opentype');
+  src: url(https://fonts.gstatic.com/s/notoserifjp/v21/xn77YHs72GKoTvER4Gn3b5eMZGKLRkg.otf) format('opentype');
 }
 .anounce {
   margin-top: 1mm;
@@ -34,9 +34,6 @@ table.print {
   border-collapse: collapse;
   display: block;
 }
-table.print p {
-  margin: 0;
-}
 table.print td {
   border: 1px dotted;
   border-color: #fff;
@@ -44,6 +41,10 @@ table.print td {
   position: relative;
   width: 98mm;
   height: 69mm;
+  white-space: pre-wrap;
+}
+table.print td.mark {
+  border-color: gray;
 }
 table.print .toArea {
   position: absolute;
@@ -88,7 +89,7 @@ table.print .toArea .addressBlock {
   font-size: 10.5pt;
   line-height: 1.1;
 }
-table.print .toArea .addressBlock p {
+table.print .toArea .addressBlock div {
   margin: 4px 0;
 }
 table.print .toArea .nameBlock {
@@ -99,17 +100,16 @@ table.print .toArea .nameBlock {
   font-family: 'Noto Serif JP', serif;
   font-weight: bold;
   text-align: center;
-}
-table.print .toArea .nameBlock .name {
   font-size: 23pt;
-  line-height: 1.2;
+  line-height: 1.05;
 }
-table.print .toArea .nameBlock .name .sub {
-  font-size: 12pt;
+table.print .toArea .nameBlock .longer {
+  font-size: 16pt;
+  text-align: left;
 }
-table.print .toArea .nameBlock .name .title {
-  font-size: 14pt;
-  margin-left: 1mm;
+table.print .toArea .nameBlock .honorific {
+  font-size: 0.8em;
+  margin-left: 0.1em;
 }
 table.print .fromArea {
   font-family: 'Noto Serif JP', serif;
@@ -194,7 +194,7 @@ table.print .fromArea .stamp {
   width: 7mm;
   height: 28mm;
 }
-table.print .fromArea .stamp p {
+table.print .fromArea .stamp span {
   font-size: 14pt;
   font-weight: bold;
   font-family: "MS Gothic";

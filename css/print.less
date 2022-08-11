@@ -20,15 +20,13 @@ https://www.a-one.co.jp/product/search/detail.php?id=61208
     // https://stackoverflow.com/questions/13605179/firefox-print-top-alignment-is-not-good-in-2nd-page
     margin-top: 1px;
 }
+
 table.print {
     position: absolute;
     top: 10.5mm;
     left: 8mm;
     border-collapse: collapse;
     display: block;
-    p {
-        margin: 0;
-    }
     td {
         border: 1px dotted;
         border-color: #fff;
@@ -36,6 +34,11 @@ table.print {
         position: relative;
         width: 98mm;
         height: 69mm;
+        white-space: pre-wrap;
+    }
+    td.mark {
+        border-color: gray;
+        border-color: gray;
     }
     .toArea {
         position: absolute;
@@ -77,7 +80,7 @@ table.print {
             max-width: 75mm;
             font-size: 10.5pt;
             line-height: 1.1;
-            p {
+            div {
                 margin: 4px 0;
             }
         }
@@ -89,16 +92,15 @@ table.print {
             font-family: @serifFontFamily;
             font-weight: bold;
             text-align: center;
-            .name {
-                font-size: 23pt;
-                line-height: 1.2;
-                .sub {
-                    font-size: 12pt;
-                }
-                .title {
-                    font-size: 14pt;
-                    margin-left: 1mm;
-                }
+            font-size: 23pt;
+            line-height: 1.05;
+            .longer {
+                font-size: 16pt;
+                text-align: left;
+            }
+            .honorific {
+                font-size: .8em;
+                margin-left: .1em;
             }
         }
     }
@@ -183,7 +185,7 @@ table.print {
             top: -2mm;
             width: 7mm;
             height: 28mm;
-            p {
+            span {
                 font-size: 14pt;
                 font-weight: bold;
                 font-family: "MS Gothic";

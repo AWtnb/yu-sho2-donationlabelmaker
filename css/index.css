@@ -75,13 +75,10 @@ img {
     margin: 0 1rem;
 }
 
-input[type="button"], button {
+input[type="file"], button {
     margin:0 .25em;
     padding: 6px;
     border-radius: 6px;
-}
-input[type="file"] {
-    border-radius: 0%;
 }
 
 .condition {
