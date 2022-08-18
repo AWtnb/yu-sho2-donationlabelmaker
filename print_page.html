@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- thanks https://qiita.com/okoppe8/items/f3b3e7688c98537512ea -->
 <html lang="ja">
 <meta charset="utf-8"/>
 <head>
@@ -10,6 +9,10 @@
 </head>
 <body class="A4">
     <div id="app">
+        <div id="adjuster">
+            <label>宛名のフォントサイズ：{{fontPadded}}pt</label>
+            <input type="range" min="14" max="32" step="0.25" v-model="nameBlock.fontSize"/>
+        </div>
         <sheets :sheets-arr="sheetsData"></sheets>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
@@ -67,17 +70,15 @@ class Allocator {
 
 const sendTo = {
     props: ["name", "honorific"],
+    inject: ["nameBlock"],
     computed: {
-        className: function(){
-            if (this.name.length > 8) {
-                return "longer";
-            }
-            return "shorter";
-        },
+        fontSize: function() {
+            return this.nameBlock.fontSize + "pt";
+        }
     },
     template: `
-    <div class="nameBlock">
-        <div :class="className">
+    <div class="nameBlock" :style="{'font-size': fontSize}">
+        <div>
             <span>{{name}}</span>
             <span class="honorific">{{honorific}}</span>
         </div>
@@ -240,12 +241,23 @@ const vm = Vue.createApp({
     data: function() {
         return {
             basedata: loadBaseData(),
+            nameBlock: {
+                fontSize: 23
+            },
         }
     },
     computed: {
         sheetsData: function(){
             const alloc = new Allocator(this.basedata);
             return alloc.allocate();
+        },
+        fontPadded: function() {
+            return Number(this.nameBlock.fontSize).toFixed(2);
+        }
+    },
+    provide: function() {
+        return {
+            nameBlock: this.nameBlock
         }
     },
     components: {

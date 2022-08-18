@@ -11,9 +11,17 @@ https://www.a-one.co.jp/product/search/detail.php?id=61208
     color: tomato;
     text-align: center;
 }
+#adjuster {
+    label {
+        margin: 4px 10px;
+    }
+    input {
+        vertical-align: middle;
+    }
+}
 @media print {
-    .anounce {
-        visibility: hidden;
+    #adjuster, .anounce {
+        display: none;
     }
 }
 .sheet {
@@ -90,12 +98,7 @@ table.print {
             font-family: @serifFontFamily;
             font-weight: bold;
             text-align: center;
-            font-size: 23pt;
             line-height: 1.05;
-            .longer {
-                font-size: 16pt;
-                text-align: left;
-            }
             .honorific {
                 font-size: .8em;
                 margin-left: .1em;
