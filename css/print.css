@@ -35,16 +35,15 @@ table.print {
   display: block;
 }
 table.print td {
-  border: 1px dotted;
-  border-color: #fff;
-  border-collapse: collapse;
+  border: none;
   position: relative;
   width: 98mm;
   height: 69mm;
   white-space: pre-wrap;
 }
 table.print td.mark {
-  border-color: gray;
+  border-bottom: 1px dotted gray;
+  border-right: 1px dotted gray;
 }
 table.print .toArea {
   position: absolute;
