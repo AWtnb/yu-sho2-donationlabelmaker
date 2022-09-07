@@ -25,7 +25,7 @@ class Allocator {
         this.nCol = 2;
         this.labelLimit = this.nRow * this.nCol;
         this.basedata = basedata;
-        this.filled = this.basedata.map((d, i) => ({
+        this.labels = this.basedata.map((d, i) => ({
             inner: d,
             className: (i == this.basedata.length - 1)? "mark" : "unmark"
         }));
@@ -33,10 +33,14 @@ class Allocator {
     }
 
     fillRest(){
-        const rest = this.labelLimit - this.basedata.length % this.labelLimit;
+        const exceed = this.basedata.length % this.labelLimit;
+        if (exceed < 1) {
+            return;
+        }
+        const rest = this.labelLimit - exceed;
         const unit = this.basedata.length;
         for (let i = 0; i < rest; i++) {
-            this.filled.push({
+            this.labels.push({
                 inner: this.basedata[i%unit],
                 className: (i % unit == unit - 1)? "mark" : "unmark"
             });
@@ -46,10 +50,10 @@ class Allocator {
     allocate() {
         const trs = [];
         let cellStack = [];
-        for (let i = 0; i < this.filled.length; i++) {
-            const label = this.filled[i];
+        for (let i = 0; i < this.labels.length; i++) {
+            const label = this.labels[i];
             cellStack.push(label)
-            if (cellStack.length == this.nCol || i == this.filled.length - 1) {
+            if (cellStack.length == this.nCol || i == this.labels.length - 1) {
                 trs.push({cells: cellStack});
                 cellStack = [];
             }
