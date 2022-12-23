@@ -29,7 +29,7 @@
                 <tr>
                     <td>
                         <div class="inputForm">
-                            <textarea placeholder="Excel から図のようにコピーして貼り付けてください" autofocus="on" v-model="content"></textarea>
+                            <textarea v-select placeholder="Excel から図のようにコピーして貼り付けてください" autofocus="on" v-model="content"></textarea>
                             <button @click="load">表に読み込む</button>
                         </div>
                     </td>
@@ -241,6 +241,13 @@ const vm = Vue.createApp({
         },
         print: function(){
             window.open('./print_page.html', 'newwindow', 'width=800,height=890');
+        }
+    },
+    directives: {
+        select: {
+            mounted: function (el) {
+                el.select()
+            }
         }
     }
 }).mount("#app");
