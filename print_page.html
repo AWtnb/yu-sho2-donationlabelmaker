@@ -20,9 +20,9 @@
 
 
 class Allocator {
-    constructor(basedata) {
-        this.nRow = 4;
-        this.nCol = 2;
+    constructor(basedata, nRow, nCol) {
+        this.nRow = nRow;
+        this.nCol = nCol;
         this.labelLimit = this.nRow * this.nCol;
         this.basedata = basedata;
         this.labels = this.basedata.map((d, i) => ({
@@ -53,7 +53,7 @@ class Allocator {
         for (let i = 0; i < this.labels.length; i++) {
             const label = this.labels[i];
             cellStack.push(label)
-            if (cellStack.length == this.nCol || i == this.labels.length - 1) {
+            if (cellStack.length == this.nCol) {
                 trs.push({cells: cellStack});
                 cellStack = [];
             }
@@ -63,7 +63,7 @@ class Allocator {
         for (let i = 0; i < trs.length; i++) {
             const tr = trs[i];
             rowStack.push(tr)
-            if (rowStack.length == this.nRow || i == trs.length - 1) {
+            if (rowStack.length == this.nRow) {
                 sheets.push({rows: rowStack});
                 rowStack = [];
             }
@@ -252,7 +252,7 @@ const vm = Vue.createApp({
     },
     computed: {
         sheetsData: function(){
-            const alloc = new Allocator(this.basedata);
+            const alloc = new Allocator(this.basedata, 4, 2);
             return alloc.allocate();
         },
         fontPadded: function() {
