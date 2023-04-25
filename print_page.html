@@ -49,23 +49,21 @@ class Allocator {
 
     allocate() {
         const trs = [];
-        let cellStack = [];
+        const cellStack = [];
         for (let i = 0; i < this.labels.length; i++) {
             const label = this.labels[i];
             cellStack.push(label)
             if (cellStack.length == this.nCol) {
-                trs.push({cells: cellStack});
-                cellStack = [];
+                trs.push({cells: cellStack.splice(0)}); // reset cellStack by splicing
             }
         }
         const sheets = [];
-        let rowStack = [];
+        const rowStack = [];
         for (let i = 0; i < trs.length; i++) {
             const tr = trs[i];
             rowStack.push(tr)
             if (rowStack.length == this.nRow) {
-                sheets.push({rows: rowStack});
-                rowStack = [];
+                sheets.push({rows: rowStack.splice(0)}); // reset rowStack by splicing
             }
         }
         return sheets;
