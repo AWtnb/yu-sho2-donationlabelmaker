@@ -1,85 +1,91 @@
 <!DOCTYPE html>
 <html lang="ja">
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
+
 <head>
     <title>label</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 style=%22dominant-baseline:central;text-anchor:middle;font-size:90px;%22>&#X2714;</text></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 style=%22dominant-baseline:central;text-anchor:middle;font-size:90px;%22>&#X2714;</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
     <link rel="stylesheet" type="text/css" href="./css/print.css">
-    <style>@page{ size: A4; size: portrait }</style>
+    <style>
+        @page {
+            size: A4;
+            size: portrait
+        }
+    </style>
 </head>
+
 <body class="A4">
     <div id="app">
         <div id="adjuster">
             <label>宛名のフォントサイズ：{{fontPadded}}pt</label>
-            <input type="range" min="14" max="32" step="0.25" v-model="nameBlock.fontSize"/>
+            <input type="range" min="14" max="32" step="0.25" v-model="nameBlock.fontSize" />
         </div>
         <sheets :sheets-arr="sheetsData"></sheets>
     </div>
-<script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
-<script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
+    <script>
 
 
-class Allocator {
-    constructor(basedata, nRow, nCol) {
-        this.nRow = nRow;
-        this.nCol = nCol;
-        this.labelLimit = this.nRow * this.nCol;
-        this.basedata = basedata;
-        this.labels = this.basedata.map((d, i) => ({
-            inner: d,
-            className: (i == this.basedata.length - 1)? "mark" : "unmark"
-        }));
-        this.fillRest();
-    }
+        class Allocator {
+            constructor(basedata) {
+                this.basedata = basedata;
+                this.labels = this.basedata.map((d, i) => ({
+                    inner: d,
+                    className: (i == this.basedata.length - 1) ? "mark" : "unmark"
+                }));
+            }
 
-    fillRest(){
-        const exceed = this.basedata.length % this.labelLimit;
-        if (exceed < 1) {
-            return;
-        }
-        const rest = this.labelLimit - exceed;
-        const unit = this.basedata.length;
-        for (let i = 0; i < rest; i++) {
-            this.labels.push({
-                inner: this.basedata[i%unit],
-                className: (i % unit == unit - 1)? "mark" : "unmark"
-            });
-        }
-    }
+            getFullData(labelLimit) {
+                const stack = this.labels;
+                const exceed = this.basedata.length % labelLimit;
+                if (exceed < 1) {
+                    return stack;
+                }
+                const rest = labelLimit - this.basedata.length % labelLimit;
+                const unit = this.basedata.length;
+                for (let i = 0; i < rest; i++) {
+                    stack.push({
+                        inner: this.basedata[i % unit],
+                        className: (i % unit == unit - 1) ? "mark" : "unmark"
+                    });
+                }
+                return stack;
+            }
 
-    allocate() {
-        const trs = [];
-        const cellStack = [];
-        for (let i = 0; i < this.labels.length; i++) {
-            const label = this.labels[i];
-            cellStack.push(label)
-            if (cellStack.length == this.nCol) {
-                trs.push({cells: cellStack.splice(0)}); // reset cellStack by splicing
+            allocate(nRow, nCol) {
+                const fullData = this.getFullData(nRow * nCol);
+                const trs = [];
+                const cellStack = [];
+                for (let i = 0; i < fullData.length; i++) {
+                    const label = fullData[i];
+                    cellStack.push(label)
+                    if (cellStack.length == nCol) {
+                        trs.push({ cells: cellStack.splice(0) }); // reset cellStack by splicing
+                    }
+                }
+                const sheets = [];
+                const rowStack = [];
+                for (let i = 0; i < trs.length; i++) {
+                    const tr = trs[i];
+                    rowStack.push(tr)
+                    if (rowStack.length == nRow) {
+                        sheets.push({ rows: rowStack.splice(0) }); // reset rowStack by splicing
+                    }
+                }
+                return sheets;
             }
         }
-        const sheets = [];
-        const rowStack = [];
-        for (let i = 0; i < trs.length; i++) {
-            const tr = trs[i];
-            rowStack.push(tr)
-            if (rowStack.length == this.nRow) {
-                sheets.push({rows: rowStack.splice(0)}); // reset rowStack by splicing
-            }
-        }
-        return sheets;
-    }
-}
-
-const sendTo = {
-    props: ["name", "honorific"],
-    inject: ["nameBlock"],
-    computed: {
-        fontSize: function() {
-            return this.nameBlock.fontSize + "pt";
-        }
-    },
-    template: `
+        const sendTo = {
+            props: ["name", "honorific"],
+            inject: ["nameBlock"],
+            computed: {
+                fontSize: function () {
+                    return this.nameBlock.fontSize + "pt";
+                }
+            },
+            template: `
     <div class="nameBlock" :style="{'font-size': fontSize}">
         <div>
             <span>{{name}}</span>
@@ -87,29 +93,29 @@ const sendTo = {
         </div>
     </div>
     `
-}
+        }
 
-const stamp = {
-    template: `
+        const stamp = {
+            template: `
     <div class="stamp">
         <div class="kin">謹</div>
         <div class="tei">呈</div>
     </div>
     `
-}
+        }
 
-const toAddress = {
-    props: ["address", "place"],
-    template: `
+        const toAddress = {
+            props: ["address", "place"],
+            template: `
     <div class="addressBlock">
         <div class="address">{{address}}</div>
         <div class="place">{{place}}</div>
     </div>
     `
-}
+        }
 
-const fromAddress = {
-    template: `
+        const fromAddress = {
+            template: `
     <div class="addressBlock">
         <div class="company">
             <span class="kabuMark">&#x337F;</span>
@@ -119,10 +125,10 @@ const fromAddress = {
         <div class="address">〒101-0051 東京都千代田区神田神保町2-17</div>
     </div>
     `
-}
+        }
 
-const contact = {
-    template: `
+        const contact = {
+            template: `
     <div class="contact">
         <div>
             <span class="tel">電話</span>
@@ -135,24 +141,24 @@ const contact = {
         <div class="url">https://www.yuhikaku.co.jp/</div>
     </div>
     `
-}
-
-const labelCell = {
-    props: ["label"],
-    data: function () {
-        return {
-            asYumail: window.opener.document.querySelector("#asYumail").checked,
-            asVia: window.opener.document.querySelector("#asVia").checked,
         }
-    },
-    components: {
-        "stamp": stamp,
-        "to-address": toAddress,
-        "from-address": fromAddress,
-        "send-to": sendTo,
-        "contact": contact,
-    },
-    template: `
+
+        const labelCell = {
+            props: ["label"],
+            data: function () {
+                return {
+                    asYumail: window.opener.document.querySelector("#asYumail").checked,
+                    asVia: window.opener.document.querySelector("#asVia").checked,
+                }
+            },
+            components: {
+                "stamp": stamp,
+                "to-address": toAddress,
+                "from-address": fromAddress,
+                "send-to": sendTo,
+                "contact": contact,
+            },
+            template: `
     <div class="toArea">
         <stamp></stamp>
         <div class="zipcode">〒{{label.zipcode}}</div>
@@ -171,28 +177,28 @@ const labelCell = {
         <div class="via" v-if="asVia">気付</div>
     </div>`
 
-}
+        }
 
-const labelRow = {
-    props: ["cells"],
-    components: {
-        "label-cell": labelCell
-    },
-    template: `
+        const labelRow = {
+            props: ["cells"],
+            components: {
+                "label-cell": labelCell
+            },
+            template: `
     <tr>
         <td v-for="(cell, idx) in cells" :key="idx" :class="cell.className">
             <label-cell :label="cell.inner"></label-cell>
         </td>
     </tr>
     `
-}
+        }
 
-const labelSheet = {
-    props: ["rows"],
-    components: {
-        "label-row": labelRow
-    },
-    template: `
+        const labelSheet = {
+            props: ["rows"],
+            components: {
+                "label-row": labelRow
+            },
+            template: `
     <section class="sheet">
         <div class="anounce">※宛名・宛先はこのページで直接編集できます（改行は Shift+Enter）。</div>
         <table class="print">
@@ -202,73 +208,74 @@ const labelSheet = {
         </table>
     </section>
     `
-}
+        }
 
-const sheets = {
-    props: ["sheets-arr"],
-    components: {
-        "label-sheet": labelSheet
-    },
-    template: `
+        const sheets = {
+            props: ["sheets-arr"],
+            components: {
+                "label-sheet": labelSheet
+            },
+            template: `
     <div v-for="(sht, idx) in sheetsArr" :key="idx">
         <label-sheet :rows="sht.rows"></label-sheet>
     </div>
     `
-}
-
-function loadBaseData(){
-    const src = window.opener.document.querySelector('#srcTable tbody');
-    if (!src) {
-        return [{
-            "name": "福沢 諭吉",
-            "honorific": "先生",
-            "place": "慶應義塾大学",
-            "zipcode": "108-8345",
-            "address": "東京都港区三田2-15-45",
-            "from": "聖徳太子",
-        }];
-    }
-    return Array.from(src.rows).map(row => {
-        return {
-            name:      (row.cells[0].innerText.trim() || ""),
-            honorific: (row.cells[1].innerText.trim() || ""),
-            place:     (row.cells[2].innerText.trim() || ""),
-            zipcode:   (row.cells[3].innerText.trim() || ""),
-            address:   (row.cells[4].innerText.trim() || ""),
-            from:      (row.cells[5].innerText.trim() || ""),
         }
-    });
-}
 
-const vm = Vue.createApp({
-    data: function() {
-        return {
-            basedata: loadBaseData(),
-            nameBlock: {
-                fontSize: 23
+        function loadBaseData() {
+            const src = window.opener.document.querySelector('#srcTable tbody');
+            if (!src) {
+                return [{
+                    "name": "福沢 諭吉",
+                    "honorific": "先生",
+                    "place": "慶應義塾大学",
+                    "zipcode": "108-8345",
+                    "address": "東京都港区三田2-15-45",
+                    "from": "聖徳太子",
+                }];
+            }
+            return Array.from(src.rows).map(row => {
+                return {
+                    name: (row.cells[0].innerText.trim() || ""),
+                    honorific: (row.cells[1].innerText.trim() || ""),
+                    place: (row.cells[2].innerText.trim() || ""),
+                    zipcode: (row.cells[3].innerText.trim() || ""),
+                    address: (row.cells[4].innerText.trim() || ""),
+                    from: (row.cells[5].innerText.trim() || ""),
+                }
+            });
+        }
+
+        const vm = Vue.createApp({
+            data: function () {
+                return {
+                    basedata: loadBaseData(),
+                    nameBlock: {
+                        fontSize: 23
+                    },
+                }
             },
-        }
-    },
-    computed: {
-        sheetsData: function(){
-            const alloc = new Allocator(this.basedata, 4, 2);
-            return alloc.allocate();
-        },
-        fontPadded: function() {
-            return Number(this.nameBlock.fontSize).toFixed(2);
-        }
-    },
-    provide: function() {
-        return {
-            nameBlock: this.nameBlock
-        }
-    },
-    components: {
-        "sheets": sheets
-    }
-}).mount("#app");
+            computed: {
+                sheetsData: function () {
+                    const alloc = new Allocator(this.basedata);
+                    return alloc.allocate(4, 2);
+                },
+                fontPadded: function () {
+                    return Number(this.nameBlock.fontSize).toFixed(2);
+                }
+            },
+            provide: function () {
+                return {
+                    nameBlock: this.nameBlock
+                }
+            },
+            components: {
+                "sheets": sheets
+            }
+        }).mount("#app");
 
 
-</script>
+    </script>
 </body>
+
 </html>
