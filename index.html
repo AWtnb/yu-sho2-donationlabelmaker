@@ -106,7 +106,7 @@ function parseLine(line) {
         "honorific": (fields[1] || ""),
         "place": (fields[2] || ""),
         "zipcode": formatPostalCode((fields[3] || "")),
-        "address": toHalfWidth((fields[4] || "")).replace(/[\u002d\u2010\u2011\u2012\u2013\u2014\u30FC\uFF0D]+/g, "-"),
+        "address": toHalfWidth((fields[4] || "")).replace(/(?<=\d)[\u002d\u2010\u2011\u2012\u2013\u2014\u30FC\uFF0D]+/g, "-"),
         "from": (fields[5] || ""),
     };
 }
