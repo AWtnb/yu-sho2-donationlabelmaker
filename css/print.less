@@ -1,208 +1,209 @@
-
 /*
 https://www.a-one.co.jp/product/search/detail.php?id=60208
 https://www.a-one.co.jp/product/search/detail.php?id=61208
 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700');
-@serifFontFamily: 'Noto Serif JP', serif;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700");
+@serifFontFamily: "Noto Serif JP", "MS Mincho", serif;
 
 .anounce {
-    margin-top: 1mm;
-    color: tomato;
-    text-align: center;
+  margin-top: 1mm;
+  color: tomato;
+  text-align: center;
 }
 #adjuster {
-    label {
-        margin: 4px 10px;
-    }
-    input {
-        vertical-align: middle;
-    }
+  label {
+    margin: 4px 10px;
+  }
+  input {
+    vertical-align: middle;
+  }
 }
 @media print {
-    #adjuster, .anounce {
-        display: none;
-    }
+  #adjuster,
+  .anounce {
+    display: none;
+  }
 }
 .sheet {
-    // https://stackoverflow.com/questions/13605179/firefox-print-top-alignment-is-not-good-in-2nd-page
-    margin-top: 1px;
+  // https://stackoverflow.com/questions/13605179/firefox-print-top-alignment-is-not-good-in-2nd-page
+  margin-top: 1px;
 }
 
 table.print {
+  position: absolute;
+  top: 10.5mm;
+  left: 8mm;
+  border-collapse: collapse;
+  display: block;
+  td {
+    border: none;
+    position: relative;
+    width: 98mm;
+    height: 69mm;
+    white-space: pre-wrap;
+  }
+  td.mark {
+    border-bottom: 1px dotted gray;
+    border-right: 1px dotted gray;
+  }
+  .toArea {
     position: absolute;
-    top: 10.5mm;
-    left: 8mm;
-    border-collapse: collapse;
-    display: block;
-    td {
-        border: none;
-        position: relative;
-        width: 98mm;
-        height: 69mm;
-        white-space: pre-wrap;
-    }
-    td.mark {
-        border-bottom: 1px dotted gray;
-        border-right: 1px dotted gray;
-    }
-    .toArea {
+    top: 0mm;
+    height: 36mm;
+    width: 96mm;
+    .stamp {
+      position: absolute;
+      left: 79mm;
+      top: 5mm;
+      width: 12mm;
+      height: 25mm;
+      border: 2px solid black;
+      line-height: 1;
+      div.kin,
+      div.tei {
+        font-size: 10mm;
+        font-weight: bold;
+        font-family: "Noto Serif JP";
         position: absolute;
-        top: 0mm;
-        height: 36mm;
-        width: 96mm;
-        .stamp {
-            position: absolute;
-            left: 79mm;
-            top: 5mm;
-            width: 12mm;
-            height: 25mm;
-            border: 2px solid black;
-            line-height: 1;
-            div.kin, div.tei {
-                font-size: 10mm;
-                font-weight: bold;
-                font-family: "Noto Serif JP";
-                position: absolute;
-                left: 1mm;
-            }
-            div.kin {
-                top: 1mm;
-            }
-            div.tei {
-                top: 13mm;
-            }
-        }
-        .zipcode {
-            position: absolute;
-            top: 3mm;
-            left: 3mm;
-            font-size: 12pt;
-        }
-        .addressBlock {
-            position: absolute;
-            top: 8mm;
-            left: 3mm;
-            max-width: 75mm;
-            font-size: 10.5pt;
-            line-height: 1.1;
-            div {
-                margin: 4px 0;
-            }
-        }
-        .nameBlock {
-            position: absolute;
-            width: 70mm;
-            bottom: 0;
-            left: 12mm;
-            font-family: @serifFontFamily;
-            font-weight: bold;
-            text-align: center;
-            line-height: 1.05;
-            .honorific {
-                font-size: .8em;
-                margin-left: .1em;
-            }
-        }
+        left: 1mm;
+      }
+      div.kin {
+        top: 1mm;
+      }
+      div.tei {
+        top: 13mm;
+      }
     }
-    .fromArea {
-        font-family: @serifFontFamily;
-        border-top: solid 1px #123456;
-        color: #123456;
+    .zipcode {
+      position: absolute;
+      top: 3mm;
+      left: 3mm;
+      font-size: 12pt;
+    }
+    .addressBlock {
+      position: absolute;
+      top: 8mm;
+      left: 3mm;
+      max-width: 75mm;
+      font-size: 10.5pt;
+      line-height: 1.1;
+      div {
+        margin: 4px 0;
+      }
+    }
+    .nameBlock {
+      position: absolute;
+      width: 70mm;
+      bottom: 0;
+      left: 12mm;
+      font-family: @serifFontFamily;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.05;
+      .honorific {
+        font-size: 0.8em;
+        margin-left: 0.1em;
+      }
+    }
+  }
+  .fromArea {
+    font-family: @serifFontFamily;
+    border-top: solid 1px #123456;
+    color: #123456;
+    position: absolute;
+    top: 38mm;
+    left: 13mm;
+    width: 80mm;
+    height: 30mm;
+    .addressBlock {
+      position: absolute;
+      top: 1mm;
+      .company {
+        line-height: 10mm;
+        font-weight: bold;
+        .kabuMark {
+          font-size: 26pt;
+          font-weight: normal;
+        }
+        .companyName {
+          position: absolute;
+          left: 9.5mm;
+          width: 30mm;
+          font-size: 21pt;
+          letter-spacing: 0.5mm;
+        }
+        .department {
+          position: absolute;
+          left: 34mm;
+          width: 40mm;
+          font-size: 16pt;
+        }
+      }
+      .address {
         position: absolute;
-        top: 38mm;
-        left: 13mm;
+        top: 11mm;
         width: 80mm;
-        height: 30mm;
-        .addressBlock {
-            position: absolute;
-            top: 1mm;
-            .company {
-                line-height: 10mm;
-                font-weight: bold;
-                .kabuMark {
-                    font-size: 26pt;
-                    font-weight: normal;
-                }
-                .companyName {
-                    position: absolute;
-                    left: 9.5mm;
-                    width: 30mm;
-                    font-size: 21pt;
-                    letter-spacing: .5mm;
-                }
-                .department {
-                    position: absolute;
-                    left: 34mm;
-                    width: 40mm;
-                    font-size: 16pt;
-                }
-            }
-            .address {
-                position: absolute;
-                top: 11mm;
-                width: 80mm;
-                font-family: "MS Gothic";
-                font-size: 9pt;
-            }
-        }
-        .contact {
-            position: absolute;
-            top: 16mm;
-            font-family: "MS Gothic";
-            font-size: 9pt;
-            .url {
-                font-size: 8.5pt;
-                font-family: "MS P Gothic";
-            }
-            .fax {
-                letter-spacing: .45mm;
-                margin-left: .5mm;
-            }
-            .num {
-                position: absolute;
-                left: 8mm;
-                width: 60mm;
-                letter-spacing: .5mm;
-            }
-        }
-        .nameBlock {
-            position: absolute;
-            line-height: 1.1;
-            top: 17mm;
-            left: 38mm;
-            width: 44mm;
-            max-width: 44mm;
-            text-align: center;
-            font-size: 11pt;
-            font-weight: bold;
-            word-break: keep-all;
-        }
-        .stamp {
-            position: absolute;
-            border: 2px solid #123456;
-            padding: .5mm 1mm;
-            left: -11.25mm;
-            top: -2mm;
-            width: 7mm;
-            height: 28mm;
-            span {
-                font-size: 14pt;
-                font-weight: bold;
-                font-family: "MS Gothic";
-                writing-mode: vertical-rl;
-                position: absolute;
-                left: 2mm;
-                top: 2mm;
-            }
-        }
+        font-family: "MS Gothic";
+        font-size: 9pt;
+      }
     }
-    .via {
+    .contact {
+      position: absolute;
+      top: 16mm;
+      font-family: "MS Gothic";
+      font-size: 9pt;
+      .url {
+        font-size: 8.5pt;
+        font-family: "MS P Gothic";
+      }
+      .fax {
+        letter-spacing: 0.45mm;
+        margin-left: 0.5mm;
+      }
+      .num {
         position: absolute;
-        font-size: 11pt;
-        top: 8.5mm;
-        left: 70mm;
-        width: 2.5em;
-        text-align: center;
+        left: 8mm;
+        width: 60mm;
+        letter-spacing: 0.5mm;
+      }
     }
+    .nameBlock {
+      position: absolute;
+      line-height: 1.1;
+      top: 17mm;
+      left: 38mm;
+      width: 44mm;
+      max-width: 44mm;
+      text-align: center;
+      font-size: 11pt;
+      font-weight: bold;
+      word-break: keep-all;
+    }
+    .stamp {
+      position: absolute;
+      border: 2px solid #123456;
+      padding: 0.5mm 1mm;
+      left: -11.25mm;
+      top: -2mm;
+      width: 7mm;
+      height: 28mm;
+      span {
+        font-size: 14pt;
+        font-weight: bold;
+        font-family: "MS Gothic";
+        writing-mode: vertical-rl;
+        position: absolute;
+        left: 2mm;
+        top: 2mm;
+      }
+    }
+  }
+  .via {
+    position: absolute;
+    font-size: 11pt;
+    top: 8.5mm;
+    left: 70mm;
+    width: 2.5em;
+    text-align: center;
+  }
 }
