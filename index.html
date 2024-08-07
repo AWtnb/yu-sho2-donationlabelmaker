@@ -48,6 +48,7 @@
             <ul>
                 <li>各セルを直接編集することもできます。</li>
                 <li>1行が長い場合は字が赤くなります。適宜改行してください。</li>
+                <li><code>氏名</code>列で改行すると名前の左上に小さく表示することができます。肩書きの表示などに利用できます。</li>
             </ul>
             <data-table :address="addressArr"></data-table>
             <ul>
@@ -64,7 +65,7 @@
 
 const sample = [
     {
-        "name": "福沢 諭吉",
+        "name": "名物教授\n福沢 諭吉",
         "honorific": "先生",
         "place": "慶應義塾大学",
         "zipcode": "108-8345",

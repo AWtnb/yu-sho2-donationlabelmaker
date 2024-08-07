@@ -82,14 +82,25 @@
             computed: {
                 fontSize: function () {
                     return this.nameBlock.fontSize + "pt";
+                },
+                lines: function () {
+                    return this.name.split(/\r?\n+/).filter(s => s.trim().length);
+                },
+                person: function () {
+                    return this.lines.slice(-1)[0] || "";
+                },
+                position: function () {
+                    if (this.lines.length < 2) {
+                        return "";
+                    }
+                    return this.lines.slice(0, -1).join("\n");
                 }
             },
             template: `
     <div class="nameBlock" :style="{'font-size': fontSize}">
-        <div>
-            <span>{{name}}</span>
-            <span class="honorific">{{honorific}}</span>
-        </div>
+        <span class="position">{{position}}</span>
+        <span>{{person}}</span>
+        <span class="honorific">{{honorific}}</span>
     </div>
     `
         }
@@ -221,11 +232,11 @@
     `
         }
 
-        function loadBaseData() {
+        const loadBaseData = () => {
             const src = window.opener.document.querySelector('#srcTable tbody');
             if (!src) {
                 return [{
-                    "name": "福沢 諭吉",
+                    "name": "名物教授\n福沢 諭吉",
                     "honorific": "先生",
                     "place": "慶應義塾大学",
                     "zipcode": "108-8345",

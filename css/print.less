@@ -95,14 +95,23 @@ table.print {
       }
     }
     .nameBlock {
+      width: max-content;
       position: absolute;
-      width: 70mm;
       bottom: 0;
-      left: 12mm;
+      left: 50%;
+      transform: translateX(-50%);
       font-family: @serifFontFamily;
       font-weight: bold;
       text-align: center;
       line-height: 1.05;
+      .position:empty {
+        display: none;
+      }
+      .position {
+        display: block;
+        font-size: 0.55em;
+        text-align: left;
+      }
       .honorific {
         font-size: 0.8em;
         margin-left: 0.1em;
