@@ -38,15 +38,18 @@ table.print {
   border-collapse: collapse;
   display: block;
   td {
-    border: none;
+    border-width: 1px;
+    border-color: transparent;
     position: relative;
-    width: 98mm;
-    height: 69mm;
+    width: calc(97mm - 1px);
+    height: calc(69mm - 1px);
     white-space: pre-wrap;
   }
   td.mark {
-    border-bottom: 1px dotted gray;
-    border-right: 1px dotted gray;
+    border-bottom-color: gray;
+    border-bottom-style: dotted;
+    border-right-color: gray;
+    border-right-style: dotted;
   }
   .toArea {
     font-family: @sansSerifFontFamily;
